@@ -167,14 +167,6 @@ $ npm run serve
 
 
 
-## :v: TEST 주의사항(fixture)
-
-* 리뷰와 코멘트의 스포일러 등의 특이점은 id: `admin` pw: `admin` 계정에서 테스트할 수 있게끔 `fixture`가 마련되어 있습니다. 
-* `fixture`는 영화 정보 제공, 즉 `Index` 페이지의 최상단 `MovieSlider` 슬라이드가 로드되자마자 중앙으로 보이는 세 개의 영화`(대부, 갓핸드, 너의 이름은.)`을 중심으로 제공되어 있습니다. 외에는 리뷰와 댓글이 작성되어 있지 않습니다.
-* 외 유저들은 *대부분* id: `t{number}` pw: `just{'number'*4}`로 설정되어 있습니다. 예를 들어 id: `t1` pw: `just1111`과 같은 식입니다. 다만 두 자리수 `number`에 대해서는 id: `t17` pw: `just1717`의 형태로 pw에서 두 번 반복의 형식입니다.
-
-
-
 ## ©️ License
 
 [Apache License 2.0](https://github.com/ycyoondev/JORLDY/blob/master/LICENSE.md)
