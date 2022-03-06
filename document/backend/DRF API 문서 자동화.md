@@ -1,4 +1,4 @@
-# [Swagger] RESTful API 문서 만들기
+# [drf-yasg] RESTful API 문서 만들기
 
 ### 배경
 
@@ -6,7 +6,7 @@ Django로 개발한 서버를 Spring 서버로 변경하려 합니다. Django �
 
 ### 목표
 
-Django REST API Doc 도구인 Swagger (drf-yasg)를 사용하여 문서화 하겠습니다.
+Django REST API Docs 도구인 drf-yasg를 사용하여 문서화 하겠습니다.
 
 ### 과정
 
@@ -22,11 +22,65 @@ pip install drf-yasg
 
 ```python
 INSTALLED_APPS = [
+    ...
     'drf_yasg',
 ]
 ```
 
+3. url 등록
 
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+# drf-yasg
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    '''
+        서비스에 사용되는 url
+    ''',
+]
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='API 문서 제목',
+        default_version='API 버전',
+        description=
+        '''
+        API 문서 설명
+
+        작성자 : ...
+        ''',
+        terms_of_service='',
+        contact=openapi.Contact(name='이름', email='이메일'),
+        license=openapi.License(name='API 문서 이름')
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+    patterns=urlpatterns,
+)
+
+# drf_yasg url 
+urlpatterns += [
+    path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
+```
+
+4. 접속
+
+```python
+python manage.py runserver
+```
+
+`http://127.0.0.1:8000/swagger/` 또는 `http://127.0.0.1:8000/docs/` 접속하여 확인
 
 ### 결과
+
+![image-20220306213253669](DRF API 문서 자동화.assets/image-20220306213253669.png)
 
