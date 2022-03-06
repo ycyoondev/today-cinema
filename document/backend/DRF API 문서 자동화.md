@@ -68,7 +68,7 @@ schema_view = get_schema_view(
 urlpatterns += [
     path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 ```
 
@@ -78,9 +78,13 @@ urlpatterns += [
 python manage.py runserver
 ```
 
-`http://127.0.0.1:8000/swagger/` 또는 `http://127.0.0.1:8000/docs/` 접속하여 확인
+`http://127.0.0.1:8000/swagger/` 또는 `http://127.0.0.1:8000/redoc/` 접속하여 확인
 
 ### 결과
 
 ![image-20220306213253669](DRF API 문서 자동화.assets/image-20220306213253669.png)
+
+
+
+Swagger와 Redoc 타입 중 보기좋은 UI를 선택해 사용하면 된다. 화면에서 API를 호출해서 테스트할 수 있다.  
 
