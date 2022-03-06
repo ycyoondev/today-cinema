@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'movies',
     'community',
     'DBcontrol',
+    'drf_yasg',
     'rest_framework',
     'django_seed',
     'corsheaders',

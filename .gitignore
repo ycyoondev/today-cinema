@@ -1,7 +1,8 @@
 # pirvate
 old/
 myfile/
-backend/_env.py
+backend-v1/_env.py
+_env.py
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,vue,vuejs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,visualstudiocode,vue,vuejs
