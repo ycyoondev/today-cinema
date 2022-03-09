@@ -21,13 +21,13 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
-
+url_version = 'v1/'
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('movies/', include('movies.urls')),
-    path('community/', include('community.urls')),
-    path('DBcontrol/', include('DBcontrol.urls')),
+    path(url_version+'admin/', admin.site.urls),
+    path(url_version+'accounts/', include('accounts.urls')),
+    path(url_version+'movies/', include('movies.urls')),
+    path(url_version+'community/', include('community.urls')),
+    path(url_version+'DBcontrol/', include('DBcontrol.urls')),
 ]
 
 schema_view = get_schema_view(

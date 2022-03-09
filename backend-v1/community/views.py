@@ -14,8 +14,11 @@ from krwordrank.word import summarize_with_keywords
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def reviews(request, movie_id):
+    print("18")
     movie = Movie.objects.get(id=movie_id)
+    print("19", movie)
     if request.method == 'GET':
         all_reviews = movie.review_set.all()
         if request.user.is_authenticated:
@@ -27,7 +30,9 @@ def reviews(request, movie_id):
             blocked_user_reviews = blocked_user_reviews.union(*temp_list)
             none_blocked_user_reviews = all_reviews.difference(blocked_user_reviews)
             reviews_serializer = ReviewsetSerializer(none_blocked_user_reviews[::-1], many=True)
+            print("30")
         else:
+            print("31")
             reviews_serializer = ReviewsetSerializer(all_reviews, many=True)
         return Response(reviews_serializer.data)
 
@@ -42,6 +47,7 @@ def reviews(request, movie_id):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])
 def review_detail(request, movie_id, review_id):
     movie = Movie.objects.get(id=movie_id)
     review = movie.review_set.get(id=review_id)
@@ -64,6 +70,7 @@ def review_detail(request, movie_id, review_id):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def comments(request, movie_id, review_id):
     movie = Movie.objects.get(id=movie_id)
     review = movie.review_set.get(id=review_id)
@@ -80,6 +87,7 @@ def comments(request, movie_id, review_id):
 
 
 @api_view(['PUT', 'DELETE'])
+@permission_classes([AllowAny])
 def comment_detail(request, movie_id, review_id, comment_id):
     movie = Movie.objects.get(id=movie_id)
     review = movie.review_set.get(id=review_id)
@@ -99,6 +107,7 @@ def comment_detail(request, movie_id, review_id, comment_id):
         
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def review_like_check(request, movie_id, review_id):
     movie = Movie.objects.get(id=movie_id)
     review = movie.review_set.get(id=review_id)
@@ -136,6 +145,7 @@ def spoiler_check(object, user):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def review_spoiler_check(request, movie_id, review_id):
     movie = Movie.objects.get(id=movie_id)
     review = movie.review_set.get(id=review_id)
@@ -154,7 +164,6 @@ def review_wordcloud(request, movie_id):
     texts = []
     for review in all_reviews:
         texts.append(review.content)
-    print(texts)
     stopwords = {'영화', '관람객', '너무', '정말', '보고', '일부', '완전히'}
     keywords = summarize_with_keywords(texts, min_count=3, max_length=10,
         beta=0.85, max_iter=10, stopwords=stopwords, verbose=True)
