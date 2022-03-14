@@ -18,9 +18,11 @@
 
 ## 🗂️ Release
 
-| Version | Release Date      | Source                | Detail                               |
-| ------- | ----------------- | --------------------- | ------------------------------------ |
-| 1.0.1   | November 30, 2021 | [Source](/backend-v1) | [Detail Note](/backend-v1/README.md) |
+| Version    | Release Date      | Source                | Detail                               |
+| ---------- | ----------------- | --------------------- | ------------------------------------ |
+| 1.0.1 (v1) | November 30, 2021 | [Source](/backend-v1) | [Detail Note](/backend-v1/README.md) |
+
+ :bulb: (22.03.06) 서버를 Spring으로 전환 작업 중입니다. (v1 버전은 정상 사용 가능합니다)
 
 
 
