@@ -1,0 +1,8 @@
+-- DB생성
+CREATE DATABASE todaycinema default CHARACTER SET UTF8;
+
+-- 사용자 추가
+CREATE USER 'master'@'localhost' IDENTIFIED BY 'master123';
+GRANT ALL PRIVILEGES ON todaycinema.* TO 'master'@'localhost';
+FLUSH PRIVILEGES;
+
