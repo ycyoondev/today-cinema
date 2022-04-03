@@ -11,8 +11,11 @@ import javax.persistence.Id;
 @Getter @Setter
 public class Genre {
     @Id
+    @Column(name = "genre_id")
     private Long id;
+
     private String name;
+
     @Column(name = "tmdb_id")
     private Long tmdbId;
 }

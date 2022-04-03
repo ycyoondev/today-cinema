@@ -1,5 +1,6 @@
 package com.todaycinema.v2.movies.domain;
 
+import com.todaycinema.v2.accounts.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,16 +9,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class MovieGenre {
+public class MovieRecommendUser {
 
     @Id
     @GeneratedValue
-    @Column(name = "movie_genre_id")
+    @Column(name = "movie_recommend_user_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
