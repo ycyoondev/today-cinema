@@ -1,6 +1,5 @@
-package com.todaycinema.v2.community.domain;
+package com.todaycinema.v2.domain;
 
-import com.todaycinema.v2.accounts.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +8,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class ReviewLikeUser {
+public class MovieRecommendUser {
 
     @Id
     @GeneratedValue
-    @Column(name = "review_like_user_id")
+    @Column(name = "movie_recommend_user_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,6 +20,6 @@ public class ReviewLikeUser {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 }

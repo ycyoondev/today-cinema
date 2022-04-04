@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/todaycinema?characterEncoding=utf8
+    username: master
+    password: master123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create # create 경우 종료 후 table drop함
+    properties:
+      hibernate:
+        format_sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace

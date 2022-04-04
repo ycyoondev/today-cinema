@@ -1,4 +1,4 @@
-package com.todaycinema.v2.movies.domain;
+package com.todaycinema.v2.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,20 +1,25 @@
-package com.todaycinema.v2.community.domain;
+package com.todaycinema.v2.domain;
 
-import com.todaycinema.v2.accounts.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-public class ReviewSpoilerCheckUser {
-
+@Getter @Setter
+public class Comment {
     @Id
-    @GeneratedValue
-    @Column(name = "review_spoiler_check_user_id")
+    @Column(name = "comment_id")
     private Long id;
+
+    private String content;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

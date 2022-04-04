@@ -1,4 +1,4 @@
-package com.todaycinema.v2.accounts.domain;
+package com.todaycinema.v2.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,20 +8,18 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class UserBlocked {
+public class ReviewSpoilerCheckUser {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_blocked_id")
+    @Column(name = "review_spoiler_check_user_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @Column(name = "from_user_id")
-    private User blocked;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @Column(name = "to_user_id")
-    private User follower;
+    @JoinColumn(name = "review_id")
+    private Review review;
 }

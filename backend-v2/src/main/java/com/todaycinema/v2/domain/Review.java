@@ -1,7 +1,5 @@
-package com.todaycinema.v2.community.domain;
+package com.todaycinema.v2.domain;
 
-import com.todaycinema.v2.accounts.domain.User;
-import com.todaycinema.v2.movies.domain.Movie;
 import lombok.Getter;
 import lombok.Setter;
 
