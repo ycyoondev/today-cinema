@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 public class Review {
-    @Id
+    @Id @GeneratedValue
     @Column(name = "review_id")
     private Long id;
 

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 public class Comment {
-    @Id
+    @Id @GeneratedValue
     @Column(name = "comment_id")
     private Long id;
 
