@@ -20,7 +20,7 @@ public class GenreRepository {
 
     @Modifying
     @Query(value = "truncate genre", nativeQuery = true)
-    public void turncateGenre() {
+    public void truncateGenre() {
         log.info("TRUNCATE: GENRE Table");
     }
 
