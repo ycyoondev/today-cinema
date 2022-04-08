@@ -5,11 +5,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
-@Getter
-@Setter
+//@Entity
+//@Getter
+//@Setter
 public class MovieGenre {
-
+    // ManyToMany로 사용
     @Id
     @GeneratedValue
     @Column(name = "movie_genre_id")

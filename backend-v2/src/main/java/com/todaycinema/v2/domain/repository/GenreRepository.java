@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -40,5 +42,16 @@ public class GenreRepository {
         return em.createQuery(
                 "select g from Genre g", Genre.class
         ).getResultList();
+    }
+
+    // 장르 아이디를 받아, 장르 리스트를 반환
+    public List<Genre> makeGenreList(Integer[] ids) {
+        List<Genre> result = new ArrayList<>();
+        for (Integer id : ids) {
+            Long genreId = Long.valueOf(id);
+            Genre genre = findOne(genreId);
+            result.add(genre);
+        }
+        return result;
     }
 }

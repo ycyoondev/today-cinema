@@ -3,6 +3,7 @@ package com.todaycinema.v2.web.dbcontrol.service;
 import com.todaycinema.v2.config.WebClientConfig;
 import com.todaycinema.v2.domain.Genre;
 import com.todaycinema.v2.domain.Movie;
+import com.todaycinema.v2.domain.MovieGenre;
 import com.todaycinema.v2.domain.repository.GenreRepository;
 import com.todaycinema.v2.domain.repository.MovieRepository;
 import com.todaycinema.v2.web.dbcontrol.dto.TmdbGenreDTO;
@@ -83,6 +84,9 @@ public class UpdateDBService {
                 movie.setPosterPath(movieDTO.getPosterPath());
                 movie.setTmdbId(movieDTO.getTmdbId());
                 movie.setAdult(movieDTO.isAdult());
+
+                Integer[] ids = movieDTO.getGenreIds().toArray(new Integer[0]);
+                movie.setGenres(genreRepository.makeGenreList(ids));
                 movieRepository.save(movie);
             }
         }
