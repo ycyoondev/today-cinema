@@ -26,6 +26,7 @@ public class Movie {
     @Column(name = "tmdb_rating")
     private float tmdbRating;
 
+    @Column(columnDefinition = "TEXT")
     private String overview;
 
     @Column(name = "tmdb_id")

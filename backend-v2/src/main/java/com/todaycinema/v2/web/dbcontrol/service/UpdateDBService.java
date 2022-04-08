@@ -84,6 +84,7 @@ public class UpdateDBService {
                 movieRepository.save(movie);
             }
         }
+        log.info("movie가 업데이트 되었습니다.");
 
     }
 

@@ -19,5 +19,6 @@ public class UpdateDBController {
     @GetMapping("/update-movies")
     public void updateDB() {
         updateDBService.updateGenre();
+        updateDBService.updateMovie();
     }
 }
