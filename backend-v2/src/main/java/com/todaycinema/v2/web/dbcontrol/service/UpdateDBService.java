@@ -12,6 +12,7 @@ import com.todaycinema.v2.web.dbcontrol.dto.TmdbMoviesDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +34,12 @@ public class UpdateDBService {
     private final GenreRepository genreRepository;
     private final MovieRepository movieRepository;
 
+    @Value("${tmdb_key}")
+    private String apiKey;
+
     @Transactional
     public void updateGenre() {
         // 장르 채우기
-        String apiKey = "e47790c923409dca4c2e985789776181";
         genreRepository.truncateGenre();
 
         WebClient webClient = webClientConfig.webClientTMDB();
@@ -58,7 +61,6 @@ public class UpdateDBService {
     @Transactional
     public void updateMovie() {
         // 영화 채우기
-        String apiKey = "e47790c923409dca4c2e985789776181";
         movieRepository.truncateMovie(); //
 
         WebClient webClient = webClientConfig.webClientTMDB();
