@@ -44,6 +44,18 @@ public class GenreRepository {
         ).getResultList();
     }
 
+    public String findGenreName(Long genreId) {
+        try {
+            return em.createQuery(
+                    "select g from Genre g " +
+                            "where g.tmdbId=:genreId", Genre.class
+            ).setParameter("genreId", genreId).getSingleResult().getName();
+        } catch (NullPointerException e) {
+            return "없는장르";
+        }
+        
+    }
+
     // 장르 아이디를 받아, 장르 리스트를 반환
     public List<Genre> makeGenreList(Integer[] ids) {
         List<Genre> result = new ArrayList<>();

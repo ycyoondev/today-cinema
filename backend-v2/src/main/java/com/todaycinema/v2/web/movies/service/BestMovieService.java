@@ -15,15 +15,19 @@ public class BestMovieService {
 
     public final MovieRepository movieRepository;
 
-    @Transactional
     public List<Movie> findBestMovie(int num) {
         List<Movie> bestMovie = movieRepository.findTopNumByTmdbRating(num);
         return bestMovie;
     }
 
-    @Transactional
     public List<Movie> findBestGenreMovie(int num, Long genreId) {
         List<Movie> bestGenreMovie = movieRepository.findTopNumByGenre(num, genreId);
         return bestGenreMovie;
     }
+
+    public List<Long> findGenreIds() {
+        List<Long> genreIds = movieRepository.findGenreIds();
+        return genreIds;
+    }
+
 }

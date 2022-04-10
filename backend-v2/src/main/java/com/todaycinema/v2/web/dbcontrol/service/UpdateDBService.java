@@ -65,7 +65,7 @@ public class UpdateDBService {
         movieRepository.truncateMovie(); //
 
         WebClient webClient = webClientConfig.webClientTMDB();
-        for (int i=1; i < 10; i++) {
+        for (int i=1; i < 20; i++) {
             String pageNum = Integer.toString(i);
             TmdbMoviesDTO movies = webClient.get()
                     .uri(uriBuilder -> uriBuilder

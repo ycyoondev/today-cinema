@@ -17,8 +17,9 @@ public class UpdateDBController {
     private final UpdateDBService updateDBService;
 
     @GetMapping("/update-movies")
-    public void updateDB() {
+    public String updateDB() {
         updateDBService.updateGenre();
         updateDBService.updateMovie();
+        return "DB가 업데이트되었습니다.";
     }
 }
