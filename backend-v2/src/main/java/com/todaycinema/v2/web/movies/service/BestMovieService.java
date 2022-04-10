@@ -20,4 +20,10 @@ public class BestMovieService {
         List<Movie> bestMovie = movieRepository.findTopNumByTmdbRating(num);
         return bestMovie;
     }
+
+    @Transactional
+    public List<Movie> findBestGenreMovie(int num, Long genreId) {
+        List<Movie> bestGenreMovie = movieRepository.findTopNumByGenre(num, genreId);
+        return bestGenreMovie;
+    }
 }

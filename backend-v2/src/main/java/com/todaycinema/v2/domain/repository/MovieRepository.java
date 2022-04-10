@@ -1,13 +1,16 @@
 package com.todaycinema.v2.domain.repository;
 
+import com.todaycinema.v2.domain.Genre;
 import com.todaycinema.v2.domain.Movie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.JpaQueryMethodFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +20,7 @@ public class MovieRepository {
 
     private final EntityManager em;
 
+    /* Create */
     public void save(Movie movie) {
         if (movie.getId() == null) {
             em.persist(movie);
@@ -25,6 +29,7 @@ public class MovieRepository {
         }
     }
 
+    /* Read */
     public Movie findOne(Long id) {
         return em.find(Movie.class, id);
     }
@@ -42,9 +47,31 @@ public class MovieRepository {
         ).setMaxResults(num).getResultList();
     }
 
+    @Query("SELECT distinct m from Movie m join m.genres")
+    public List<Movie> findTopNumByGenre(int num, Long genreId) {
+        return em.createQuery("select distinct m from Movie m " +
+                        "join m.genres g " +
+                        "where g.tmdbId = :genreId", Movie.class
+        ).setParameter("genreId", genreId)
+                .setMaxResults(num).getResultList();
+
+    }
+
+    /* Update */
+
+
+    /* Delete */
     @Modifying
     @Query(value = "truncate movie", nativeQuery = true)
     public void truncateMovie() {
         log.info("TRUNCATE: MOVIE Table");
     }
+
+
+
+
+
+
+
+
 }
