@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Random;
 
-@Tag(name = "movie")
+@Tag(name = "movies")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class BestMovieController {
         return bestMovieResponse;
     }
 
-    @GetMapping("/{genreId}/best")
+    @GetMapping("/genre/{genreId}/best")
     public List<Movie> genreBest(@PathVariable Long genreId) {
         List<Movie> bestGenreMovie = bestMovieService.findBestGenreMovie(20, genreId);
         return bestGenreMovie;
