@@ -22,3 +22,12 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
+springdoc:
+  swagger-ui:
+    path: swagger.html
+  version: v2
+  paths-to-match:
+  - /v2/**
+
+

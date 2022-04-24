@@ -1,11 +1,10 @@
 package com.todaycinema.v2.web.movies.controller;
 
-import com.todaycinema.v2.domain.Genre;
 import com.todaycinema.v2.domain.Movie;
 import com.todaycinema.v2.domain.repository.GenreRepository;
-import com.todaycinema.v2.domain.repository.MovieRepository;
 import com.todaycinema.v2.web.movies.dto.BestMovieResponse;
 import com.todaycinema.v2.web.movies.service.BestMovieService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Random;
 
+@Tag(name = "movie")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
