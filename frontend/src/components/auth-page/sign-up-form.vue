@@ -77,6 +77,7 @@ export default {
             .then(res => {
               localStorage.setItem('jwt', res.data.token)
           const token = localStorage.getItem('jwt')
+          console.log(token)
           const user = jwt_decode(token);
           this.$router.push({ name: 'Profile', params: { user_id: user.user_id } })
             })
