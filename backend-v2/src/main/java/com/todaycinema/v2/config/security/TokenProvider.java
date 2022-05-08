@@ -1,10 +1,13 @@
 package com.todaycinema.v2.config.security;
 
+import com.todaycinema.v2.domain.repository.UserRepository;
 import com.todaycinema.v2.web.accounts.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,10 +30,12 @@ public class TokenProvider {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
 
     private final Key key;
+    private final UserRepository userRepository;
 
-    public TokenProvider(@Value("${jwt_secret}") String secretKey) {
+    public TokenProvider(@Value("${jwt_secret}") String secretKey, UserRepository userRepository) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.userRepository = userRepository;
     }
 
     public TokenDto generateTokenDto(Authentication authentication) {
@@ -38,14 +43,19 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        // 유저 가져오기
+        Optional<com.todaycinema.v2.domain.User> user = userRepository.findByUsername(authentication.getName());
+
 
         long now = (new Date()).getTime();
-
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
+                .setHeaderParam("typ", "JWT")
                 .setSubject(authentication.getName())       // payload "sub": "name"
                 .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
+                .claim("user_id", user.get().getId())               // payload "user_id": "1" (예시)
+                .claim("username", user.get().getUsername())        // payload "username": "auth1" (예시)
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
