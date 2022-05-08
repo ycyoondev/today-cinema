@@ -1,6 +1,8 @@
 package com.todaycinema.v2.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserBlocked {
 
     @Id
@@ -15,13 +18,17 @@ public class UserBlocked {
     @Column(name = "user_blocked_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    @Column(name = "from_user_id")
-//    private User blocked;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    @Column(name = "to_user_id")
-//    private User follower;
+    @JoinColumn(name = "from_user_id")
+    @ManyToOne
+    private User fromUser;
+
+    @JoinColumn(name = "to_user_id")
+    @ManyToOne
+    private User toUser;
+
+    @Builder
+    public UserBlocked(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
 }
