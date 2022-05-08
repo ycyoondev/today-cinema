@@ -1,23 +1,14 @@
 package com.todaycinema.v2.domain.repository;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.todaycinema.v2.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
+import java.util.Optional;
 
-@Slf4j
+
 @Repository
-@RequiredArgsConstructor
-public class UserRepository {
-    private final EntityManager em;
-
-    /* Create */
-
-    /* Read */
-
-    /* Update */
-
-    /* Delete */
-
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
 }
