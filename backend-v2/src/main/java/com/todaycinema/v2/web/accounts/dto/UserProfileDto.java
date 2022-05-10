@@ -20,9 +20,9 @@ public class UserProfileDto {
     private List<UserMiniDto> followers = new ArrayList<>();
     private List<UserMiniDto> blockings = new ArrayList<>();
     @JsonProperty("wish_movies")
-    private List<MovieDetailResponse> wishMovies = new ArrayList<>();
+    private List<MovieDetailMiniDto> wishMovies = new ArrayList<>();
     @JsonProperty("recommend_Movies")
-    private List<MovieDetailResponse> recommendMovies = new ArrayList<>();
+    private List<MovieDetailMiniDto> recommendMovies = new ArrayList<>();
 }
 /*
 {

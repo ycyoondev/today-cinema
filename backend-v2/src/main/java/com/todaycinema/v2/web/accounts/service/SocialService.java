@@ -1,8 +1,7 @@
 package com.todaycinema.v2.web.accounts.service;
 
-import com.todaycinema.v2.domain.User;
-import com.todaycinema.v2.domain.UserBlocked;
-import com.todaycinema.v2.domain.UserFollowing;
+import com.todaycinema.v2.domain.*;
+import com.todaycinema.v2.domain.repository.MovieWishUserRepository;
 import com.todaycinema.v2.domain.repository.UserBlockRepository;
 import com.todaycinema.v2.domain.repository.UserFollowRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
@@ -24,6 +23,7 @@ public class SocialService {
     private final UserRepository userRepository;
     private final UserFollowRepository userFollowRepository;
     private final UserBlockRepository userBlockRepository;
+    private final MovieWishUserRepository movieWishUserRepository;
 
     @Transactional
     public FollowResponseDto followSave(String username, Long toUserId) {
@@ -94,6 +94,13 @@ public class SocialService {
         for (UserBlocked userBlocked : userBlockeds) {
             UserMiniDto userMiniDto = new UserMiniDto(userBlocked.getToUser().getId(), userBlocked.getToUser().getUsername());
             userProfileDto.getBlockings().add(userMiniDto);
+        }
+
+        List<MovieWishUser> movieWishUsers = movieWishUserRepository.findMovieWishUsersByUser(user);
+        for (MovieWishUser movieWishUser : movieWishUsers) {
+            Movie movie = movieWishUser.getMovie();
+            MovieDetailMiniDto movieDetailMiniDto = new MovieDetailMiniDto(movie.getId(), movie.getTitle(), movie.getTmdbRating(), movie.getPosterPath());
+            userProfileDto.getWishMovies().add(movieDetailMiniDto);
         }
 
         userProfileDto.setId(userId);
