@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # create 경우 종료 후 table drop함
+      ddl-auto: update # create 경우 시작시 table drop-create 함
     properties:
       hibernate:
         format_sql: true

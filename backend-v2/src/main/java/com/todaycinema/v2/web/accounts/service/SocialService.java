@@ -8,10 +8,14 @@ import com.todaycinema.v2.domain.repository.UserFollowRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
 import com.todaycinema.v2.web.accounts.dto.BlockResponseDto;
 import com.todaycinema.v2.web.accounts.dto.FollowResponseDto;
+import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
+import com.todaycinema.v2.web.accounts.dto.UserProfileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -71,5 +75,27 @@ public class SocialService {
         BlockResponseDto blockResponseDto = new BlockResponseDto();
         blockResponseDto.setMessage("차단 해제에 성공 하였습니다.");
         return blockResponseDto;
+    }
+
+    public UserProfileDto getProfile(long userId) {
+        UserProfileDto userProfileDto = new UserProfileDto();
+        User user = userRepository.findById(userId).get();
+        List<UserFollowing> userfollowers = userFollowRepository.findUserFollowingsByToUser(user);
+        for (UserFollowing userfollower : userfollowers) {
+            UserMiniDto userMiniDto = new UserMiniDto(userfollower.getFromUser().getId(), userfollower.getFromUser().getUsername());
+            userProfileDto.getFollowers().add(userMiniDto);
+        }
+
+        List<UserFollowing> userfollowings = userFollowRepository.findUserFollowingsByFromUser(user);
+        for (UserFollowing userfollowing : userfollowings) {
+            UserMiniDto userMiniDto = new UserMiniDto(userfollowing.getToUser().getId(), userfollowing.getToUser().getUsername());
+            userProfileDto.getFollowings().add(userMiniDto);
+        }
+
+        userProfileDto.setId(userId);
+        userProfileDto.setUsername(user.getUsername());
+        userProfileDto.setIntroduction(user.getIntroduction());
+
+        return userProfileDto;
     }
 }

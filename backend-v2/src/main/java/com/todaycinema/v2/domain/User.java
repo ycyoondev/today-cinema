@@ -4,6 +4,8 @@ import com.todaycinema.v2.domain.account.Authority;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
