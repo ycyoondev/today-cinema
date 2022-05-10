@@ -1,13 +1,10 @@
 package com.todaycinema.v2.web.accounts.controller;
 
 import com.todaycinema.v2.domain.User;
-import com.todaycinema.v2.domain.UserFollowing;
 import com.todaycinema.v2.domain.repository.UserBlockRepository;
 import com.todaycinema.v2.domain.repository.UserFollowRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
-import com.todaycinema.v2.web.accounts.dto.BlockResponseDto;
-import com.todaycinema.v2.web.accounts.dto.FollowResponseDto;
-import com.todaycinema.v2.web.accounts.dto.UserProfileDto;
+import com.todaycinema.v2.web.accounts.dto.*;
 import com.todaycinema.v2.web.accounts.service.SocialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -58,5 +53,14 @@ public class SocialController {
     public ResponseEntity<UserProfileDto> getProfile(@PathVariable("userId") long userId) {
         UserProfileDto profile = socialService.getProfile(userId);
         return ResponseEntity.ok(profile);
+    }
+
+    @PutMapping("/profile/{userId}")
+    public ResponseEntity<ProfileUpdateResponseDto> updateProfile(
+            @PathVariable("userId") long userId,
+            @RequestBody ProfileRequestDto profileRequestDto,
+            Authentication authentication) {
+        ProfileUpdateResponseDto profileUpdateResponseDto = socialService.updateProfile(userId, profileRequestDto, authentication);
+        return ResponseEntity.ok(profileUpdateResponseDto);
     }
 }

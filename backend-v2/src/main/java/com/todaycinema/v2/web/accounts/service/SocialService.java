@@ -6,11 +6,9 @@ import com.todaycinema.v2.domain.UserFollowing;
 import com.todaycinema.v2.domain.repository.UserBlockRepository;
 import com.todaycinema.v2.domain.repository.UserFollowRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
-import com.todaycinema.v2.web.accounts.dto.BlockResponseDto;
-import com.todaycinema.v2.web.accounts.dto.FollowResponseDto;
-import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
-import com.todaycinema.v2.web.accounts.dto.UserProfileDto;
+import com.todaycinema.v2.web.accounts.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,5 +101,15 @@ public class SocialService {
         userProfileDto.setIntroduction(user.getIntroduction());
 
         return userProfileDto;
+    }
+
+    @Transactional
+    public ProfileUpdateResponseDto updateProfile(long userId, ProfileRequestDto profileRequestDto, Authentication authentication) {
+        User user = userRepository.findById(userId).get();
+        if (!user.getUsername().equals(authentication.getName())) {
+            return new ProfileUpdateResponseDto("계정 주인이 아닙니다.");
+        }
+        user.setIntroduction(profileRequestDto.getIntroduction());
+        return new ProfileUpdateResponseDto("프로필이 업데이트 되었습니다.");
     }
 }

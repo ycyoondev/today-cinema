@@ -21,7 +21,7 @@ public class UserProfileDto {
     private List<UserMiniDto> blockings = new ArrayList<>();
     @JsonProperty("wish_movies")
     private List<MovieDetailResponse> wishMovies = new ArrayList<>();
-    @JsonProperty("recommendMovies")
+    @JsonProperty("recommend_Movies")
     private List<MovieDetailResponse> recommendMovies = new ArrayList<>();
 }
 /*
