@@ -1,13 +1,15 @@
 package com.todaycinema.v2.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class MovieWishUser {
 
     @Id
@@ -22,4 +24,11 @@ public class MovieWishUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
+
+
+    @Builder
+    public MovieWishUser(User user, Movie movie) {
+        this.user = user;
+        this.movie = movie;
+    }
 }
