@@ -6,10 +6,7 @@ import com.todaycinema.v2.domain.Movie;
 import com.todaycinema.v2.domain.MovieGenre;
 import com.todaycinema.v2.domain.repository.GenreRepository;
 import com.todaycinema.v2.domain.repository.MovieRepository;
-import com.todaycinema.v2.web.dbcontrol.dto.TmdbGenreDTO;
-import com.todaycinema.v2.web.dbcontrol.dto.TmdbGenresDTO;
-import com.todaycinema.v2.web.dbcontrol.dto.TmdbMovieDTO;
-import com.todaycinema.v2.web.dbcontrol.dto.TmdbMoviesDTO;
+import com.todaycinema.v2.web.dbcontrol.dto.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +62,7 @@ public class UpdateDBService {
         movieRepository.truncateMovie(); //
 
         WebClient webClient = webClientConfig.webClientTMDB();
-        for (int i=1; i < 20; i++) {
+        for (int i=1; i < 100; i++) {
             String pageNum = Integer.toString(i);
             TmdbMoviesDTO movies = webClient.get()
                     .uri(uriBuilder -> uriBuilder
@@ -84,6 +81,7 @@ public class UpdateDBService {
                 movie.setPosterPath(movieDTO.getPosterPath());
                 movie.setTmdbId(movieDTO.getTmdbId());
                 movie.setAdult(movieDTO.isAdult());
+                movie.setVideoKey(getVideoKey(movieDTO.getTmdbId()));
 
                 Integer[] ids = movieDTO.getGenreIds().toArray(new Integer[0]);
                 movie.setGenres(genreRepository.makeGenreList(ids));
@@ -94,5 +92,33 @@ public class UpdateDBService {
 
     }
 
+    public String getVideoKey(Long tmdbId) {
+        String movieId = String.valueOf(tmdbId);
+        WebClient webClient = webClientConfig.webClientTMDB();
+        TmdbVideosDTO videosDTO = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie/" + movieId + "/videos")
+                        .queryParam("api_key", apiKey)
+                        .queryParam("language", "ko-KR")
+                        .build()
+                ).retrieve().bodyToMono(TmdbVideosDTO.class).block();
+        if (videosDTO == null) {
+            return "no video";
+        }
+        for (TmdbVideoDTO videoDTO : videosDTO.getResults()) {
+            if (videoDTO.getKey().equals("Trailer")) {
+                return videoDTO.getKey();
+            }
+        }
+        for (TmdbVideoDTO videoDTO : videosDTO.getResults()) {
+            if (videoDTO.getType().equals("Teaser")) {
+                return videoDTO.getKey();
+            }
+        }
+        if (!videosDTO.getResults().isEmpty()) {
+            return videosDTO.getResults().get(0).getKey();
+        }
+        return "no video";
+    }
 
 }
