@@ -92,6 +92,12 @@ public class SocialService {
             userProfileDto.getFollowings().add(userMiniDto);
         }
 
+        List<UserBlocked> userBlockeds = userBlockRepository.findUserBlockedsByFromUser(user);
+        for (UserBlocked userBlocked : userBlockeds) {
+            UserMiniDto userMiniDto = new UserMiniDto(userBlocked.getToUser().getId(), userBlocked.getToUser().getUsername());
+            userProfileDto.getBlockings().add(userMiniDto);
+        }
+
         userProfileDto.setId(userId);
         userProfileDto.setUsername(user.getUsername());
         userProfileDto.setIntroduction(user.getIntroduction());

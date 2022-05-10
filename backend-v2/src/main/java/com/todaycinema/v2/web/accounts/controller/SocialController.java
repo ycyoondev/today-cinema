@@ -59,12 +59,4 @@ public class SocialController {
         UserProfileDto profile = socialService.getProfile(userId);
         return ResponseEntity.ok(profile);
     }
-
-    @GetMapping("/test/{userId}")
-    public List<UserFollowing> getProfiletest(@PathVariable("userId") long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        List<UserFollowing> users = userFollowRepository.findUserFollowingsByToUser(user.get());
-
-        return users;
-    }
 }
