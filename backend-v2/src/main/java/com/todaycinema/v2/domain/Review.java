@@ -13,6 +13,7 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
+    @Column(length = 1000)
     private String content;
 
     @Column(name = "is_spoiler_self")
