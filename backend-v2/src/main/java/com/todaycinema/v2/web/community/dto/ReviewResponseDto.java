@@ -30,9 +30,9 @@ public class ReviewResponseDto {
     @JsonProperty("updated_at")
     private LocalDateTime updated_at;
     @JsonProperty("like_users")
-    private List<Integer> likeUsers = new ArrayList<>();
+    private List<Long> likeUsers = new ArrayList<>();
     @JsonProperty("spoiler_check_users")
-    private List<Integer> spoilerCheckUsers = new ArrayList<>();
+    private List<Long> spoilerCheckUsers = new ArrayList<>();
 
     public ReviewResponseDto(long id, UserMiniDto userMiniDto, String content, int userRating, boolean isSpoilerSelf, boolean isSpoilerChecked, LocalDateTime createdAt, LocalDateTime updated_at) {
         this.id = id;

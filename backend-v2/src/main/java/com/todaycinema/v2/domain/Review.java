@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -38,4 +40,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ReviewLikeUser> reviewLikeUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ReviewSpoilerCheckUser> reviewSpoilerCheckUsers = new ArrayList<>();
 }
