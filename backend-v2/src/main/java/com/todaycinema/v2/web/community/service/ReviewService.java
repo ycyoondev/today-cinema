@@ -3,6 +3,7 @@ package com.todaycinema.v2.web.community.service;
 import com.todaycinema.v2.domain.*;
 import com.todaycinema.v2.domain.repository.*;
 import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
+import com.todaycinema.v2.web.community.dto.MessageResponseDto;
 import com.todaycinema.v2.web.community.dto.ReviewRequestDto;
 import com.todaycinema.v2.web.community.dto.ReviewResponseDto;
 import com.todaycinema.v2.web.community.dto.ReviewsResponseDto;
@@ -126,5 +127,11 @@ public class ReviewService {
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );
+    }
+
+    @Transactional
+    public MessageResponseDto deleteReview(long movieId, long reviewId) {
+        reviewRepository.deleteById(reviewId);
+        return new MessageResponseDto("review delete");
     }
 }

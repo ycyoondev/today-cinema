@@ -1,5 +1,6 @@
 package com.todaycinema.v2.web.community.controller;
 
+import com.todaycinema.v2.web.community.dto.MessageResponseDto;
 import com.todaycinema.v2.web.community.dto.ReviewRequestDto;
 import com.todaycinema.v2.web.community.dto.ReviewResponseDto;
 import com.todaycinema.v2.web.community.dto.ReviewsResponseDto;
@@ -69,5 +70,17 @@ public class ReviewController {
             Authentication authentication,
             @RequestBody ReviewRequestDto reviewRequestDto) {
         return ResponseEntity.ok(reviewService.updateReview(movieId, reviewId, authentication, reviewRequestDto));
+    }
+
+    /**
+     * 리뷰 삭제
+     * @param movieId
+     * @param reviewId
+     */
+    @DeleteMapping("/{movieId}/review/{reviewId}")
+    public ResponseEntity<MessageResponseDto> deleteReview(
+            @PathVariable("movieId") long movieId,
+            @PathVariable("reviewId") long reviewId) {
+        return ResponseEntity.ok(reviewService.deleteReview(movieId, reviewId));
     }
 }
