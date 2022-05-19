@@ -43,10 +43,31 @@ public class ReviewController {
         return ResponseEntity.ok(reviewService.createReview(movieId, authentication, reviewRequestDto));
     }
 
+    /**
+     * 단일 리뷰 상세 조회
+     * @param movieId
+     * @param reviewId
+     */
     @GetMapping("/{movieId}/review/{reviewId}")
     public ResponseEntity<ReviewResponseDto> getReview(
             @PathVariable("movieId") long movieId,
             @PathVariable("reviewId") long reviewId) {
         return ResponseEntity.ok(reviewService.getReview(movieId, reviewId));
+    }
+
+    /**
+     * 리뷰 수정
+     * @param movieId
+     * @param reviewId
+     * @param authentication
+     * @param reviewRequestDto
+     */
+    @PutMapping("/{movieId}/review/{reviewId}")
+    public ResponseEntity<ReviewResponseDto> updateReview(
+            @PathVariable("movieId") long movieId,
+            @PathVariable("reviewId") long reviewId,
+            Authentication authentication,
+            @RequestBody ReviewRequestDto reviewRequestDto) {
+        return ResponseEntity.ok(reviewService.updateReview(movieId, reviewId, authentication, reviewRequestDto));
     }
 }

@@ -105,4 +105,26 @@ public class ReviewService {
                 review.getUpdatedAt()
         );
     }
+
+    @Transactional
+    public ReviewResponseDto updateReview(long movieId, long reviewId, Authentication authentication, ReviewRequestDto reviewRequestDto) {
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        Review review = optionalReview.get();
+        // 수정
+        review.setContent(reviewRequestDto.getContent());
+        review.setIsSpoilerSelf(reviewRequestDto.isSpoilerSelf());
+        review.setUserRating(reviewRequestDto.getUserRating());
+        // 조회
+        User user = review.getUser();
+        return new ReviewResponseDto(
+                review.getId(),
+                new UserMiniDto(user.getId(), user.getUsername()),
+                review.getContent(),
+                review.getUserRating(),
+                review.getIsSpoilerSelf(),
+                review.getIsSpoilerChecked(),
+                review.getCreatedAt(),
+                review.getUpdatedAt()
+        );
+    }
 }
