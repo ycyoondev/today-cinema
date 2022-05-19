@@ -19,16 +19,34 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
     private final ReviewService reviewService;
 
+    /**
+     * 전체 리뷰 조회
+     * @param movieId
+     * @param authentication
+     */
     @GetMapping("/{movieId}/reviews")
     public ResponseEntity<ReviewsResponseDto> getReviews(@PathVariable("movieId") long movieId, Authentication authentication) {
         return ResponseEntity.ok(reviewService.getReviews(movieId, authentication));
     }
 
+    /**
+     * 리뷰 생성
+     * @param movieId
+     * @param authentication
+     * @param reviewRequestDto
+     */
     @PostMapping("/{movieId}/reviews")
     public ResponseEntity<ReviewResponseDto> createReview(
             @PathVariable("movieId") long movieId,
             Authentication authentication,
             @RequestBody ReviewRequestDto reviewRequestDto) {
         return ResponseEntity.ok(reviewService.createReview(movieId, authentication, reviewRequestDto));
+    }
+
+    @GetMapping("/{movieId}/review/{reviewId}")
+    public ResponseEntity<ReviewResponseDto> getReview(
+            @PathVariable("movieId") long movieId,
+            @PathVariable("reviewId") long reviewId) {
+        return ResponseEntity.ok(reviewService.getReview(movieId, reviewId));
     }
 }

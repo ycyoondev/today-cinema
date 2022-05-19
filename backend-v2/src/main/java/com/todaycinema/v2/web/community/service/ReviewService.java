@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -89,4 +90,19 @@ public class ReviewService {
     }
 
 
+    public ReviewResponseDto getReview(long movieId, long reviewId) {
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        Review review = optionalReview.get();
+        User user = review.getUser();
+        return new ReviewResponseDto(
+                review.getId(),
+                new UserMiniDto(user.getId(), user.getUsername()),
+                review.getContent(),
+                review.getUserRating(),
+                review.getIsSpoilerSelf(),
+                review.getIsSpoilerChecked(),
+                review.getCreatedAt(),
+                review.getUpdatedAt()
+        );
+    }
 }
