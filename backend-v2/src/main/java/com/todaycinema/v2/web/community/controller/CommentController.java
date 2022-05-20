@@ -3,6 +3,7 @@ package com.todaycinema.v2.web.community.controller;
 import com.todaycinema.v2.web.community.dto.CommentRequestDto;
 import com.todaycinema.v2.web.community.dto.CommentResponseDto;
 import com.todaycinema.v2.web.community.dto.CommentsResponseDto;
+import com.todaycinema.v2.web.community.dto.MessageResponseDto;
 import com.todaycinema.v2.web.community.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
+    /**
+     * 덧글 전체 조회
+     * @param movieId
+     * @param reviewId
+     */
     @GetMapping("/{movieId}/review/{reviewId}/comments")
     public ResponseEntity<CommentsResponseDto> getComments(
             @PathVariable("movieId") Long movieId,
@@ -26,6 +32,13 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getComments(movieId, reviewId));
     }
 
+    /**
+     * 덧글 생성
+     * @param movieId
+     * @param reviewId
+     * @param authentication
+     * @param commentRequestDto
+     */
     @PostMapping("/{movieId}/review/{reviewId}/comments")
     public ResponseEntity<CommentResponseDto> createComment(
             @PathVariable("movieId") Long movieId,
@@ -33,5 +46,13 @@ public class CommentController {
             Authentication authentication,
             @RequestBody CommentRequestDto commentRequestDto) {
         return ResponseEntity.ok(commentService.createComment(movieId, reviewId, authentication, commentRequestDto));
+    }
+
+    @DeleteMapping("/{movieId}/review/{reviewId}/comment/{commentId}")
+    public ResponseEntity<MessageResponseDto> deleteComment(
+            @PathVariable("movieId") Long movieId,
+            @PathVariable("reviewId") Long reviewId,
+            @PathVariable("commentId") Long commentId) {
+        return ResponseEntity.ok(commentService.deleteComment(movieId, reviewId, commentId));
     }
 }

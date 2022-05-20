@@ -10,6 +10,7 @@ import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
 import com.todaycinema.v2.web.community.dto.CommentRequestDto;
 import com.todaycinema.v2.web.community.dto.CommentResponseDto;
 import com.todaycinema.v2.web.community.dto.CommentsResponseDto;
+import com.todaycinema.v2.web.community.dto.MessageResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,7 @@ public class CommentService {
         return commentsResponseDto;
     }
 
+    @Transactional
     public CommentResponseDto createComment(Long movieId, Long reviewId, Authentication authentication, CommentRequestDto commentRequestDto) {
         // 저장
         User user = userRepository.findByUsername(authentication.getName()).get();
@@ -65,5 +67,11 @@ public class CommentService {
                 savedComment.getContent(),
                 savedComment.getCreatedAt(),
                 savedComment.getUpdatedAt());
+    }
+
+    @Transactional
+    public MessageResponseDto deleteComment(Long movieId, Long reviewId, Long commentId) {
+        commentRepository.deleteById(commentId);
+        return new MessageResponseDto("comment delete");
     }
 }
