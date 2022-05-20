@@ -2,17 +2,21 @@ package com.todaycinema.v2.web.community.service;
 
 import com.todaycinema.v2.domain.Comment;
 import com.todaycinema.v2.domain.Review;
+import com.todaycinema.v2.domain.User;
 import com.todaycinema.v2.domain.repository.CommentRepository;
 import com.todaycinema.v2.domain.repository.ReviewRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
 import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
+import com.todaycinema.v2.web.community.dto.CommentRequestDto;
 import com.todaycinema.v2.web.community.dto.CommentResponseDto;
 import com.todaycinema.v2.web.community.dto.CommentsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +45,25 @@ public class CommentService {
             commentsResponseDto.getComments().add(commentResponseDto);
         }
         return commentsResponseDto;
+    }
+
+    public CommentResponseDto createComment(Long movieId, Long reviewId, Authentication authentication, CommentRequestDto commentRequestDto) {
+        // 저장
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Review review = reviewRepository.findById(reviewId).get();
+        Comment comment = new Comment(
+                commentRequestDto.getContent(),
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                user,
+                review);
+        Comment savedComment = commentRepository.save(comment);
+        // response
+        return new CommentResponseDto(
+                savedComment.getId(),
+                new UserMiniDto(user.getId(), user.getUsername()),
+                savedComment.getContent(),
+                savedComment.getCreatedAt(),
+                savedComment.getUpdatedAt());
     }
 }

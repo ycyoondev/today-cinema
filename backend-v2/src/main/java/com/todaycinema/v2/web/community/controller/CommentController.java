@@ -1,15 +1,15 @@
 package com.todaycinema.v2.web.community.controller;
 
+import com.todaycinema.v2.web.community.dto.CommentRequestDto;
+import com.todaycinema.v2.web.community.dto.CommentResponseDto;
 import com.todaycinema.v2.web.community.dto.CommentsResponseDto;
 import com.todaycinema.v2.web.community.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "community")
 @Slf4j
@@ -24,5 +24,14 @@ public class CommentController {
             @PathVariable("movieId") Long movieId,
             @PathVariable("reviewId") Long reviewId) {
         return ResponseEntity.ok(commentService.getComments(movieId, reviewId));
+    }
+
+    @PostMapping("/{movieId}/review/{reviewId}/comments")
+    public ResponseEntity<CommentResponseDto> createComment(
+            @PathVariable("movieId") Long movieId,
+            @PathVariable("reviewId") Long reviewId,
+            Authentication authentication,
+            @RequestBody CommentRequestDto commentRequestDto) {
+        return ResponseEntity.ok(commentService.createComment(movieId, reviewId, authentication, commentRequestDto));
     }
 }
