@@ -41,7 +41,6 @@
 
 <script>
 import Vue from 'vue'
-// import { mapState } from 'vuex'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import jwt_decode from "jwt-decode";

@@ -50,7 +50,7 @@
 import axios from 'axios'
 import jwt_decode from "jwt-decode";
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   data: () => {
@@ -65,11 +65,13 @@ export default {
     login: function () {
       axios({
         method: 'post',
-        url: `${SERVER_URL}/accounts/api-token-auth/`,
+        url: `${SERVER_URL}/accounts/login/`,
         data: this.formData,
       })
         .then(res => {
-          localStorage.setItem('jwt', res.data.token)
+          debugger
+          console.log(res.data)
+          localStorage.setItem('jwt', res.data.accessToken)
           const token = localStorage.getItem('jwt')
           const user = jwt_decode(token);
           this.$router.push({ name: 'Profile', params: { user_id: user.user_id } })

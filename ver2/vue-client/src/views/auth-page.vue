@@ -13,7 +13,6 @@
             :class="isSignInPanelActive ? 'container right-panel-active' : 'container'"
           >
             <SignUpForm v-if="currentSignUpStep == 1" />
-            <!-- <SignUpContinuationForm v-if="currentSignUpStep == 2" /> -->
             <SignInForm />
             <div class="overlay-container">
               <div class="overlay">

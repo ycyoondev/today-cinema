@@ -21,7 +21,7 @@ import MovieSlider from '@/components/MovieSlider.vue'
 import MovieCaruser from '@/components/MovieCaruser.vue'
 
 // const SERVER_URL = 'http://127.0.0.1:8000'
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'Index',
@@ -63,7 +63,6 @@ export default {
       let lazyBackgroundObserver = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            //console.log("evisible")
             entry.target.classList.add("visible");
             lazyBackgroundObserver.unobserve(entry.target);
           }

@@ -49,8 +49,8 @@ public class MovieRepository {
 
     public List<Movie> findTopNumByGenre(int num, Long genreId) {
         return em.createQuery("select distinct m from Movie m " +
-                        "join m.genres g " +
-                        "where g.tmdbId = :genreId", Movie.class
+                        "where :genreId in (m.genres)" +
+                        "order by m.tmdbRating desc", Movie.class
         ).setParameter("genreId", genreId)
                 .setMaxResults(num).getResultList();
     }

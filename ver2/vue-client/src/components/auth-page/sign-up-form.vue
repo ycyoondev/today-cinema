@@ -47,7 +47,7 @@
 import axios from 'axios'
 import jwt_decode from "jwt-decode";
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   data: function () {
@@ -61,30 +61,35 @@ export default {
   },
   methods: {
     signup: function () {
-      axios({
-        method: 'post',
-        url: `${SERVER_URL}/accounts/signup/`,
-        data: this.formData
-      })
-        .then(() => {
-          // 바로 로그인
+      if (this.formData.password === this.formData.passwordConfirmation) {
+        axios({
+          method: 'post',
+          url: `${SERVER_URL}/accounts/signup/`,
+          data: this.formData
+        })
+          .then(() => {
+            // 바로 로그인
 
-          axios({
-            method: 'post',
-            url: `${SERVER_URL}/accounts/api-token-auth/`,
-            data: this.formData
-          })
-            .then(res => {
-              localStorage.setItem('jwt', res.data.token)
-          const token = localStorage.getItem('jwt')
-          console.log(token)
-          const user = jwt_decode(token);
-          this.$router.push({ name: 'Profile', params: { user_id: user.user_id } })
+            axios({
+              method: 'post',
+              url: `${SERVER_URL}/accounts/login/`,
+              data: this.formData
             })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+              .then(res => {
+                localStorage.setItem('jwt', res.data.accessToken)
+            const token = localStorage.getItem('jwt')
+            console.log(token)
+            const user = jwt_decode(token);
+            this.$router.push({ name: 'Profile', params: { user_id: user.user_id } })
+              })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        alert("비밀번호와 비밀번호확인이 다릅니다.")
+      }
+      
     }
   }
 };
