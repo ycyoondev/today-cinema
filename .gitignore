@@ -3,7 +3,7 @@ old/
 myfile/
 backend-v1/_env.py
 _env.py
-backend-v2/src/main/resources/application-API-KEY.properties
+application-API-KEY.properties
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,vue,vuejs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,visualstudiocode,vue,vuejs
