@@ -28,7 +28,7 @@
 import axios from'axios'
 import jwt_decode from "jwt-decode";
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'MovieReviewComment',
@@ -53,7 +53,7 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
@@ -93,17 +93,14 @@ export default {
     },
     getComment: function() {
       const url = SERVER_URL + '/community/movie/' + this.movie.id + '/review/' + this.review.id + '/comments/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'get',
         url: url,
         headers: this.setToken()
       })
         .then(res => {
-          this.comments = res.data
-          console.log('확인용')
-          console.log(url)
-          console.log(this.comments)
+          this.comments = res.data.comments
         })
         .catch(err => {
           console.log(err)
@@ -114,7 +111,7 @@ export default {
         url: url,
       })
         .then(res => {
-          this.comments = res.data
+          this.comments = res.data.comments
         })
         .catch(err => {
           console.log(err)

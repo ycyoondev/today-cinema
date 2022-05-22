@@ -39,7 +39,7 @@ import axios from 'axios'
 import jwt_decode from "jwt-decode";
 
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'DetailInfo',
@@ -57,7 +57,7 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },

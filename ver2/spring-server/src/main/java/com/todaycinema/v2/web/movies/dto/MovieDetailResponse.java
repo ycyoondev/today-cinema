@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 public class MovieDetailResponse {
 
+    @JsonProperty(value = "id")
     private Long movieId;
     private List<Genre> genres;
     @JsonProperty(value = "release_date")

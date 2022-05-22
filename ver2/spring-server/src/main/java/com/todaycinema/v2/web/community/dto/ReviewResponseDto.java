@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewResponseDto {
     private long id;
+    @JsonProperty("user")
     private UserMiniDto userMiniDto;
     private String content;
     @JsonProperty("user_rating")

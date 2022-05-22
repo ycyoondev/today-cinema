@@ -105,7 +105,7 @@ import jwt_decode from "jwt-decode";
 
 
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'MovieReview',
@@ -140,20 +140,20 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
     getReview : function(){
       const url = SERVER_URL + '/community/movie/' + this.movie.id + '/reviews/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'get',
         url: url,
         headers: this.setToken()
       })
         .then(res => {
-          this.reviews = res.data
+          this.reviews = res.data.reviews
           console.log(res)
         })
         .catch(err => {
@@ -235,7 +235,7 @@ export default {
     },
     getWorldCloud: function(){
       const url = SERVER_URL + '/community/movie/' + this.movie.id + '/review/wordcloud/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'get',
         url: url,

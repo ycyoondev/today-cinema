@@ -19,12 +19,14 @@
         <button type="button" class="fill" @click="openModal">리뷰 작성</button>
       </div>
     </div>
+    <div class="empty-box">
 
+    </div>
     <!-- 비슷한 장르 -->
-    <div class="section">
+    <!-- <div class="section">
         <div class="section-header text-white">이런 영화는 어떠세요?</div>
         <movie-caruser :movies="same_genres"></movie-caruser>
-    </div>
+    </div> -->
     <modal 
       name="write-modal" 
       class="form-container"
@@ -44,7 +46,7 @@ import DetailWrite from '@/components/DetailWrite.vue'
 import axios from 'axios'
 
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'Detail',
@@ -64,7 +66,7 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
@@ -89,26 +91,28 @@ export default {
     
     getMovie : async function(){
       const url = SERVER_URL + '/movies/' + this.$route.params.movie_pk
+      debugger
       axios({
         method: 'get',
         url: url,
-        // headers: this.setToken()
+        headers: this.setToken()
       })
         .then(res => {
+          console.log(res.data)
           this.movie = res.data
-          const url = SERVER_URL + '/movies/genre/' + res.data.genres[0].id + '/best/'
-          axios({
-            method: 'get',
-            url: url,
-            // headers: this.setToken()
-          })
-            .then(res => {
-              console.log(res.data)
-              this.same_genres = res.data
-            })
-            .catch(err => {
-              console.log(err)
-            })
+          // const url = SERVER_URL + '/movies/genre/' + res.data.genres[0].id + '/best/'
+          // axios({
+          //   method: 'get',
+          //   url: url,
+          //   // headers: this.setToken()
+          // })
+          //   .then(res => {
+          //     console.log(res.data)
+          //     this.same_genres = res.data
+          //   })
+          //   .catch(err => {
+          //     console.log(err)
+          //   })
         })
         .catch(err => {
           console.log(err)
@@ -116,7 +120,7 @@ export default {
     },
     
     openModal: function(){
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         this.$modal.show('write-modal')
       } else {
         window.alert("로그인을 해주세요.")
@@ -125,7 +129,7 @@ export default {
     
     closeModal: function(){
       this.$modal.hide('write-modal')
-      // this.getMovie()
+      this.getMovie()
       // this.$router.go()
       document.location.reload(true);
     },
@@ -193,5 +197,8 @@ export default {
 }
 .text-white {
   color: whitesmoke
+}
+.empty-box {
+  height: 200px;
 }
 </style>

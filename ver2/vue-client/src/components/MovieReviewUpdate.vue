@@ -39,7 +39,7 @@
 
 <script>
 import axios from'axios'
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name: 'MovieReviewUpdate',
@@ -63,7 +63,7 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
@@ -82,9 +82,6 @@ export default {
           })
           .catch(err => {
             console.log(err)
-            console.log('발생')
-            console.log(this.formData)
-            console.log(url)
           })
       }
     }
