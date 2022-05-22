@@ -13,26 +13,6 @@
             class="w-full h-full absolute opacity-50 bg-black"
           ></span>
         </div>
-        <!-- 기울이기 -->
-        <!-- <div
-          class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-          style="height: 70px;"
-        >
-          <svg
-            class="absolute bottom-0 overflow-hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            version="1.1"
-            viewBox="0 0 2560 100"
-            x="0"
-            y="0"
-          >
-            <polygon
-              class="text-gray-300 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div> -->
       </section>
       <!-- detail -->
       <section class="relative py-16 bg-gray-300">
@@ -173,7 +153,7 @@ import MovieCaruser from '@/components/MovieCaruser.vue'
 import jwt_decode from "jwt-decode";
 
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 
 export default {
@@ -198,13 +178,13 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
     getPeople : function(){
       const url = SERVER_URL + '/accounts/profile/' + this.$route.params.user_id
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'get',
         url: url,
@@ -241,7 +221,7 @@ export default {
     },
     follow: function() {
       const url = SERVER_URL + '/accounts/follow/' + this.people.id + '/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'post',
         url: url,
@@ -264,7 +244,7 @@ export default {
     },
     blocking: function() {
       const url = SERVER_URL + '/accounts/block/' + this.people.id + '/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'post',
         url: url,
@@ -294,7 +274,7 @@ export default {
       }
     },
     openModal: function(){
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         this.$modal.show('profile-modal')
         console.log(this.setToken())
       } else {
@@ -310,7 +290,7 @@ export default {
     },
     updateProfile: function() {
       const url = SERVER_URL + '/accounts/profile/' + this.people.id + '/'
-      if (!(this.setToken().Authorization === "JWT null" )) {
+      if (!(this.setToken().Authorization === "Bearer null" )) {
         axios({
         method: 'put',
         url: url,
