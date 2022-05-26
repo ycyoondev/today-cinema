@@ -46,7 +46,7 @@ import RecommendResult from '@/components/RecommendResult.vue'
 import { mapState } from 'vuex'
 import { mapActions } from 'vuex'
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 export default {
   name : "Recommend", 
@@ -71,7 +71,7 @@ export default {
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${token}`
+        Authorization: `Bearer ${token}`
       }
       return config
     },
@@ -83,7 +83,7 @@ export default {
         headers: this.setToken(),
       })
       .then( res => {
-        this.movies = res.data
+        this.movies = res.data.movies
         //console.log(res.data)
         this.first_movie = this.movies.shift()
         this.second_movie = this.movies.shift()

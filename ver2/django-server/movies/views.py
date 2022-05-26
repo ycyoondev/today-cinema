@@ -10,13 +10,40 @@ from .serializers import (
 )
 from .models import Movie, Genre
 from _env import ENV_TMDB_KEY
-from .recommend_ml import find_sim_movie
+from .recommend_ml2 import find_recommend_movie
 
 import requests
 import random
 import numpy as np 
 
 BASE_URL = 'https://api.themoviedb.org/3'
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def get_recommend_movies(request, movie_id):
+    similar_movies = find_recommend_movie(movie_id)
+    machine_learning_recommend_movies_list = list(np.array(similar_movies[['id']]['id'].tolist()))
+    response = {
+        'recommendMovie' : machine_learning_recommend_movies_list
+    }
+
+    return Response(response)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def add_movie(movies_dict):
     for movie_dict in movies_dict:
@@ -150,77 +177,51 @@ def movie_recommendation(request, movie_id):
     return JsonResponse(tmdb_recommendation(movie_id), safe=False)
     
 
-@api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
-def tournament(request, number):
-    if request.method == 'GET':
-        movies_number = number
-        if movies_number < 11:
-            movies_number = 4
-        elif movies_number > 64:
-            movies_number = 64
-        else:
-            cnt = -1
-            while movies_number:
-                movies_number //= 2
-                cnt += 1
-                
-            movies_number = 2 ** cnt
+# @api_view(['POST'])
+# @permission_classes([AllowAny])
+# def tournament(request, number):
+#     win_movie = Movie.objects.get(id=number)
+#     if request.user.is_authenticated:
+#         request.user.recommend_movies.add(win_movie)
+#     temp_id = win_movie.tmdb_id
+#     similar_movies = find_sim_movie(temp_id) 
+#     machine_learning_recommend_movies_list = list(np.array(similar_movies[['id']]['id'].tolist()))
+#     if machine_learning_recommend_movies_list:
+#         recommend_movies = []
+#         for recommend_movie_tmdb_id in machine_learning_recommend_movies_list:
+#             detail_url = BASE_URL + f'/movie/{recommend_movie_tmdb_id}'
+#             detail_query = {
+#                 'api_key': ENV_TMDB_KEY,
+#                 'language': 'ko-KR',
+#             }
+#             recommendation_response = requests.get(detail_url, params=detail_query)
+#             recommendation_dict = recommendation_response.json()
+#             genre_ids = []
+#             for genre in recommendation_dict['genres']:
+#                 genre_ids.append(genre['id'])
+#             recommendation_dict['genre_ids'] = genre_ids
+#             recommend_movies.append(recommendation_dict)
+#         print('성공')
+#         return Response(recommend_movies) # 임시
+#     else:
+#         recommend_movies = tmdb_recommendation(number)[:5]
 
-        max_id_movie = Movie.objects.all().aggregate(Max('id'))['id__max']
-        min_id_movie = Movie.objects.all().aggregate(Min('id'))['id__min']
-        random_ids_movie = random.sample(range(min_id_movie, max_id_movie+1), movies_number)
-        random_movies = []
-        for random_id_movie in random_ids_movie:
-            random_movie = Movie.objects.get(id=random_id_movie)
-            random_movies.append(random_movie)
-        movies_serializer = MovieMainSerializer(random_movies, many=True)
-        return Response(movies_serializer.data)
+#     movie_to_add = []
+#     for recommend_movie in recommend_movies:
+#         recommend_movie['vote_average'] = round(recommend_movie['vote_average'], 1)
+#         if not Movie.objects.filter(tmdb_id=recommend_movie['id']).exists():
+#             movie_to_add.append(recommend_movie)
+
+#     add_movie(movie_to_add)
+#     recommend_movie_objs = []
+#     for recommend_movie in recommend_movies:
+#         recommend_movie_obj = Movie.objects.get(tmdb_id=recommend_movie['id'])
+#         recommend_movie_objs.append(recommend_movie_obj)
+#         movies_serializer = MovieMainSerializer(recommend_movie_objs, many=True)
+#         if request.user.is_authenticated:
+#             recommend_movie_obj.recommend_users.add(request.user)
     
-    elif request.method == 'POST':
-        win_movie = Movie.objects.get(id=number)
-        if request.user.is_authenticated:
-            request.user.recommend_movies.add(win_movie)
-
-        temp_id = win_movie.tmdb_id
-        similar_movies = find_sim_movie(temp_id) 
-        machine_learning_recommend_movies_list = list(np.array(similar_movies[['id']]['id'].tolist()))
-        if machine_learning_recommend_movies_list:
-            recommend_movies = []
-            for recommend_movie_tmdb_id in machine_learning_recommend_movies_list:
-                detail_url = BASE_URL + f'/movie/{recommend_movie_tmdb_id}'
-                detail_query = {
-                    'api_key': ENV_TMDB_KEY,
-                    'language': 'ko-KR',
-                }
-                recommendation_response = requests.get(detail_url, params=detail_query)
-                recommendation_dict = recommendation_response.json()
-                genre_ids = []
-                for genre in recommendation_dict['genres']:
-                    genre_ids.append(genre['id'])
-                recommendation_dict['genre_ids'] = genre_ids
-                recommend_movies.append(recommendation_dict)
-            print('성공')
-            return Response(recommend_movies) # 임시
-        else:
-            recommend_movies = tmdb_recommendation(number)[:5]
-
-        movie_to_add = []
-        for recommend_movie in recommend_movies:
-            recommend_movie['vote_average'] = round(recommend_movie['vote_average'], 1)
-            if not Movie.objects.filter(tmdb_id=recommend_movie['id']).exists():
-                movie_to_add.append(recommend_movie)
-
-        add_movie(movie_to_add)
-        recommend_movie_objs = []
-        for recommend_movie in recommend_movies:
-            recommend_movie_obj = Movie.objects.get(tmdb_id=recommend_movie['id'])
-            recommend_movie_objs.append(recommend_movie_obj)
-            movies_serializer = MovieMainSerializer(recommend_movie_objs, many=True)
-            if request.user.is_authenticated:
-                recommend_movie_obj.recommend_users.add(request.user)
-        
-        return Response(movies_serializer.data)
+#     return Response(movies_serializer.data)
 
 """
 ### views.py

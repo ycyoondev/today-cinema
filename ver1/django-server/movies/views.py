@@ -185,6 +185,7 @@ def tournament(request, number):
         temp_id = win_movie.tmdb_id
         similar_movies = find_sim_movie(temp_id) 
         machine_learning_recommend_movies_list = list(np.array(similar_movies[['id']]['id'].tolist()))
+        print(machine_learning_recommend_movies_list)
         if machine_learning_recommend_movies_list:
             recommend_movies = []
             for recommend_movie_tmdb_id in machine_learning_recommend_movies_list:

@@ -98,7 +98,6 @@ export default {
         headers: this.setToken()
       })
         .then(res => {
-          console.log(res.data)
           this.movie = res.data
           // const url = SERVER_URL + '/movies/genre/' + res.data.genres[0].id + '/best/'
           // axios({

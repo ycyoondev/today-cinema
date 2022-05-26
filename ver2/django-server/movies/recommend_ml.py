@@ -9,7 +9,10 @@ movies = pd.read_csv('movies/data/tmdb_5000_movies.csv', encoding='utf-8')
 movies_df = movies[['id', 'title', 'genres', 'vote_average', 'vote_count', 'popularity', 'keywords', 'overview']] 
 movies_df['genres'] = movies_df['genres'].apply(literal_eval) 
 movies_df['genres'] = movies_df['genres'].apply(lambda x:[y['name'] for y in x]) 
+# print('check')
+# print(movies_df['genres'])
 movies_df['genres_literal'] = movies_df['genres'].apply(lambda x:(' ').join(x)) 
+# print(movies_df['genres_literal'])
 count_vect = CountVectorizer(min_df=0, ngram_range=(1,2)) 
 genre_mat = count_vect.fit_transform(movies_df['genres_literal']) 
 genre_sim = cosine_similarity(genre_mat, genre_mat) 
@@ -26,7 +29,6 @@ def weighted_vote_average(record):
 
 movies_df['weighted_vote'] = movies_df.apply(weighted_vote_average, axis=1)
 movies_df[['title', 'vote_average', 'weighted_vote', 'vote_count']].sort_values('weighted_vote', ascending=False)[:10]
-
 def find_sim_movie(id, top_n=5):
     df = movies_df
     sorted_ind = genre_sim_sorted_ind

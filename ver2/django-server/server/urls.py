@@ -21,7 +21,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
-url_version = 'v1/'
+url_version = 'v2/'
 urlpatterns = [
     path(url_version+'admin/', admin.site.urls),
     path(url_version+'accounts/', include('accounts.urls')),
