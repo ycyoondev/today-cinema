@@ -7,7 +7,7 @@
 <script>
 import MovieSlider from '@/components/MovieSlider.vue'
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
 
 
 export default {

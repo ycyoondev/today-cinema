@@ -1,7 +1,6 @@
 package com.todaycinema.v2.web.movies.controller;
 
 import com.todaycinema.v2.web.movies.dto.MessageResponseDto;
-import com.todaycinema.v2.web.movies.dto.RecommendMovieResponseDto;
 import com.todaycinema.v2.web.movies.dto.TournamentMoviesResponseDto;
 import com.todaycinema.v2.web.movies.service.RecommendService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +33,7 @@ public class RecommendController {
      * @param authentication
      */
     @PostMapping("/tournament/{movieId}")
-    public ResponseEntity<RecommendMovieResponseDto> recommendMovie(
+    public ResponseEntity<TournamentMoviesResponseDto> recommendMovie(
             @PathVariable("movieId") Long movieId,
             Authentication authentication){
         return recommendService.recommendMovie(movieId, authentication);

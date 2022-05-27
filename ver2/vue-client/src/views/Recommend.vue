@@ -137,7 +137,7 @@ export default {
         // 우슬 결과
         console.log('우승 결과')
         console.log(res)
-        this.recommend_movies = res.data
+        this.recommend_movies = res.data.movies
         this.openModal()
         // this.$router.push({name: 'Detail', params: { movie_pk: movie.id }})
       })
