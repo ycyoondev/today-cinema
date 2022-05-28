@@ -43,10 +43,14 @@ select title, group_concat(genre_name)
 from movies_movie
 group by title;
 
-select a.movie_id, a.title, a.tmdb_rating, a.overview, a.tmdb_id, a.poster_path, group_concat(c.name)
+INSERT INTO movies_movie(movie_id, title, tmdb_rating, overview, tmdb_id, poster_path, genres)
+select a.movie_id, a.title, a.tmdb_rating, a.overview, a.tmdb_id, a.poster_path, group_concat(c.name) as genres
 FROM movie a
 inner join movie_genre b
 on a.movie_id = b.movie_id
 inner join genre c
 on b.genre_id = c.genre_id
-group by a.title;
+group by a.movie_id;
+
+select * from movies_movie
+where movie_id = 201;

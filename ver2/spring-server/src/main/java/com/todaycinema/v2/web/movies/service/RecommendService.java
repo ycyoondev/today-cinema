@@ -2,7 +2,11 @@ package com.todaycinema.v2.web.movies.service;
 
 import com.todaycinema.v2.config.WebClientConfig;
 import com.todaycinema.v2.domain.Movie;
+import com.todaycinema.v2.domain.MovieRecommendUser;
+import com.todaycinema.v2.domain.User;
+import com.todaycinema.v2.domain.repository.MovieRecommendUserRepository;
 import com.todaycinema.v2.domain.repository.MovieRepositoryDataJpa;
+import com.todaycinema.v2.domain.repository.UserRepository;
 import com.todaycinema.v2.web.dbcontrol.dto.TmdbGenresDTO;
 import com.todaycinema.v2.web.movies.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RecommendService {
     private final MovieRepositoryDataJpa movieRepositoryDataJpa;
+    private final MovieRecommendUserRepository movieRecommendUserRepository;
+    private final UserRepository userRepository;
     private final WebClientConfig webClientConfig;
 
     public ResponseEntity<TournamentMoviesResponseDto> getTournament(int num) {
@@ -40,7 +46,10 @@ public class RecommendService {
         return ResponseEntity.ok(tournamentMoviesResponseDto);
     }
 
+    @Transactional
     public ResponseEntity<TournamentMoviesResponseDto> recommendMovie(Long movieId, Authentication authentication) {
+        // 유저 저장
+        User user = userRepository.findByUsername(authentication.getName()).get();
         // 추천 서버에서 영화 id 받기
         WebClient client = webClientConfig.webClientRecommend();
         RecommendMovieIdDto recommendMovieIdDto = client.post()
@@ -62,6 +71,10 @@ public class RecommendService {
         TournamentMoviesResponseDto tournamentMoviesResponseDto = new TournamentMoviesResponseDto();
         for (Long recommendMovieId : recommendMovieIds) {
             Movie movie = movieRepositoryDataJpa.findById(recommendMovieId).get();
+            MovieRecommendUser movieRecommendUser = new MovieRecommendUser();
+            movieRecommendUser.setMovie(movie);
+            movieRecommendUser.setUser(user);
+            movieRecommendUserRepository.save(movieRecommendUser);
             TournamentMovieDto tournamentMovieDto = new TournamentMovieDto(
                     movie.getId(), movie.getTitle(), movie.getTmdbRating(), movie.getOverview(), movie.getPosterPath()
             );

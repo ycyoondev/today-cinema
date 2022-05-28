@@ -1,4 +1,9 @@
 package com.todaycinema.v2.domain.repository;
 
-public interface MovieRecommendUserRepository extends org.springframework.data.jpa.repository.JpaRepository<com.todaycinema.v2.domain.MovieRecommendUser, java.lang.Long> {
+import com.todaycinema.v2.domain.MovieRecommendUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MovieRecommendUserRepository extends JpaRepository<MovieRecommendUser, Long> {
 }

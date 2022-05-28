@@ -12,6 +12,26 @@ from .serializers import (
 
 from krwordrank.word import summarize_with_keywords
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def review_wordcloud(request, movie_id):
+    all_reviews = Review.objects.filter(movie_id=movie_id)
+    texts = []
+    for review in all_reviews:
+        texts.append(review.content)
+    stopwords = {'영화', '관람객', '너무', '정말', '보고', '일부', '완전히'}
+    keywords = summarize_with_keywords(texts, min_count=1, max_length=10,
+        beta=0.85, max_iter=10, stopwords=stopwords, verbose=True)
+
+    wordlist = []
+    count = 0
+    for key, val in keywords.items():
+        temp = {'name': key, 'value': int(val*100)}
+        wordlist.append(temp)
+        count += 1
+        if count >= 30:
+            break
+    return Response(wordlist)
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
@@ -156,25 +176,4 @@ def review_spoiler_check(request, movie_id, review_id):
     return Response(spoiler_check(review, user))
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def review_wordcloud(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
-    all_reviews = movie.review_set.all()
-    texts = []
-    for review in all_reviews:
-        texts.append(review.content)
-    stopwords = {'영화', '관람객', '너무', '정말', '보고', '일부', '완전히'}
-    keywords = summarize_with_keywords(texts, min_count=3, max_length=10,
-        beta=0.85, max_iter=10, stopwords=stopwords, verbose=True)
 
-    wordlist = []
-    count = 0
-    for key, val in keywords.items():
-        temp = {'name': key, 'value': int(val*100)}
-        wordlist.append(temp)
-        count += 1
-        if count >= 30:
-            break
-
-    return Response(wordlist)

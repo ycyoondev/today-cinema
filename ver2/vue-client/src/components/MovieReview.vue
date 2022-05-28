@@ -106,6 +106,8 @@ import jwt_decode from "jwt-decode";
 
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL_SPRING
+const SERVER_URL_DJANGO = process.env.VUE_APP_SERVER_URL_DJANGO
+
 
 export default {
   name: 'MovieReview',
@@ -234,8 +236,8 @@ export default {
       console.log('wordClickHandler', name, value, vm);
     },
     getWorldCloud: function(){
-      const url = SERVER_URL + '/community/movie/' + this.movie.id + '/review/wordcloud/'
-      if (!(this.setToken().Authorization === "Bearer null" )) {
+      const url = SERVER_URL_DJANGO + '/community/movie/' + this.movie.id + '/review/wordcloud/'
+      if (/*!(this.setToken().Authorization === "Bearer null" )*/true) {
         axios({
         method: 'get',
         url: url,
