@@ -5,6 +5,7 @@ backend-v1/_env.py
 _env.py
 db_settings.py
 application-API-KEY.properties
+application.yml
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,vue,vuejs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,visualstudiocode,vue,vuejs

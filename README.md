@@ -1,10 +1,12 @@
 # 오늘의 영화 (TodayCinema)
 
-> (22.03.26) 본 프로젝트는 **새로운 기술을 적용하는 프로젝트** 용도로 사용 중 입니다.
+> 본 프로젝트는 **새로운 기술을 적용하는 프로젝트** 용도로 사용 중 입니다.
 >
 > 따라서, 지속적으로 새로운 기술이 도입됩니다. 
 >
 > 아래 배포 버전을 확인하셔서 원하는 기술에 맞는 코드를 확인하시기 바랍니다.
+
+## :movie_camera: This Project
 
 모든 사람이 자주 영화를 보는것은 아닙니다. 하지만 대부분의 영화 커뮤니티는 '단골'을 타겟하여 서비스를 제공합니다. 그렇다면 **가끔 영화가 보고싶어졌을 때 찾아갈 서비스가 있다면 어떨까요?** 저희는 이 고민으로부터 프로젝트를 출발하였습니다. 
 
@@ -22,104 +24,27 @@
 
 
 
+## :camera: Thumbnail
+
+![image-20220529152650794](README.assets/image-20220529152650794.png)
+
+![image-20220529152625837](README.assets/image-20220529152625837.png)
+
+
+
 ## 🗂️ Release
 
-| Version    | Release Date      | Source                | Detail                               |
-| ---------- | ----------------- | --------------------- | ------------------------------------ |
-| 1.0.1 (v1) | November 30, 2021 | [Source](/backend-v1) | [Detail Note](/backend-v1/README.md) |
-
- :bulb: (22.03.26) 서버를 Spring으로 전환 작업 중입니다. (v1 버전은 정상 사용 가능합니다)
-
-
-
-## 📄 Documentation
-
-- [Detail Description](/document/Detail_Description.md)
-- [Architecture](/document/Architecture.md)
-- [Version 1 README](/backend-v1/README.md)
+| Version    | Tools                         | Release Date      | Source          | Detail                         |
+| ---------- | ----------------------------- | ----------------- | --------------- | ------------------------------ |
+| 1.0.1 (v1) | Django, Vue.js, SQLite        | November 30, 2021 | [Source](/ver1) | [Detail Note](/ver1/README.md) |
+| 2.0.1 (v2) | Spring, Django, Vue.js, MySQL | May 29, 2022      | [Source](/ver2) | [Detail Note](/ver2/README.md) |
 
 
 
----
+## 📄 Dev Story
+
+- [아이템 기반 추천 모델 서빙](https://sunshower99.tistory.com/13)
+- [NLP 워드 클라우드](https://sunshower99.tistory.com/12)
 
 
-
-## ⬇️ Installation
-
-### For Server
-
-```
- $ git clone https://github.com/ycyoondev/today-cinema.git
- $ cd today-cinema/backend-v1
- $ pip install -r requirements.txt
-```
-
-**To use Virtual Environments**
-
-(customize if necessary)
-
-```
- $ cd backend-v1
- $ python -m venv venv
- $ source venv/Scripts/activate/
- $ pip install -r requirements.txt
-```
-
-### For Client
-
-```
- $ git clone https://github.com/ycyoondev/today-cinema.git
- $ cd today-cinema/frontend
- $ npm i
-```
-
-
-
-## 🚀 Getting started
-
-### Key Setting
-
-#### For Server
-
-Server 폴더(venv위치)에 `_env.py` 파일을 생성 후 아래 내용을 저장한다.
-
-- SECRET_KEY는 Django settings.py에서 얻을 수 있다.
-- ENV_TMDB_KEY는 TMDB API에서 발급받을 수 있다.
-
-```
-SECRET_KEY = 
-ENV_TMDB_KEY = 
-```
-
-#### For Client
-
-Root 폴더(.git위치)에 `.env.local`파일을 생성 후 아래 내용을 저장한다. 
-
-아래 값은 예시이며, 해당하는 로컬 주소나 배포된 주소를 입력하면 된다.
-
-```
-VUE_APP_SERVER_URL=http://127.0.0.1:8000
-```
-
-### 실행
-
-#### For Server
-
-```
-$ python manage.py migrate
-$ python manage.py loaddata TodayCinemaDumpdata.json
-$ python manage.py runserver
-```
-
-#### For Client
-
-```
-$ npm run serve
-```
-
-
-
-## ©️ License
-
-[Apache License 2.0](https://github.com/ycyoondev/JORLDY/blob/master/LICENSE.md)
 
