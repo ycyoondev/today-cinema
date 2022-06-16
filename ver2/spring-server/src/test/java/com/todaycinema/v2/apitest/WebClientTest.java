@@ -1,11 +1,12 @@
 package com.todaycinema.v2.apitest;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-public class WebClientTest {
+class WebClientTest {
 
     @Test
     @DisplayName("WebClient connect test: Success")
@@ -16,7 +17,6 @@ public class WebClientTest {
                 .uri(url)
                 .retrieve()
                 .bodyToMono(String.class);
-        System.out.println(stringMono.flux().toStream().findFirst());
-        System.out.println("종료");
+        Assertions.assertThat(stringMono).isNotNull();
     }
 }

@@ -5,6 +5,7 @@ import com.todaycinema.v2.web.dbcontrol.service.UpdateDBService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UpdateDBController {
     private final UpdateDBService updateDBService;
 
-    @PostMapping("/update-movies")
-    public ResponseEntity<DbResultResponse> updateDb() {
-        return ResponseEntity.ok(updateDBService.updateDb());
+    @PostMapping("/update-movies/{maxPageNum}")
+    public ResponseEntity<DbResultResponse> updateDb(@PathVariable("maxPageNum") int maxPageNum) {
+        return ResponseEntity.ok(updateDBService.updateDb(maxPageNum));
     }
 }

@@ -27,9 +27,9 @@ public class UpdateDBService {
     private String apiKey;
 
     @Transactional
-    public DbResultResponse updateDb() {
+    public DbResultResponse updateDb(int maxPageNum) {
         updateGenre();
-        updateMovie();
+        updateMovie(maxPageNum);
         return DbResultResponse.builder().message("DB update success").build();
     }
 
@@ -54,12 +54,12 @@ public class UpdateDBService {
         log.info("genre가 업데이트 되었습니다.");
     }
 
-    public void updateMovie() {
+    public void updateMovie(int maxPageNum) {
         // 영화 채우기
         movieRepository.truncateMovie(); //
 
         WebClient webClient = webClientConfig.webClientTMDB();
-        for (int i=1; i < 100; i++) {
+        for (int i=1; i <= maxPageNum; i++) {
             String pageNum = Integer.toString(i);
             TmdbMoviesDTO movies = webClient.get()
                     .uri(uriBuilder -> uriBuilder
