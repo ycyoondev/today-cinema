@@ -3,24 +3,15 @@ package com.todaycinema.v2.web.dbcontrol.service;
 import com.todaycinema.v2.config.WebClientConfig;
 import com.todaycinema.v2.domain.Genre;
 import com.todaycinema.v2.domain.Movie;
-import com.todaycinema.v2.domain.MovieGenre;
 import com.todaycinema.v2.domain.repository.GenreRepository;
 import com.todaycinema.v2.domain.repository.MovieRepository;
 import com.todaycinema.v2.web.dbcontrol.dto.*;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -36,6 +27,12 @@ public class UpdateDBService {
     private String apiKey;
 
     @Transactional
+    public DbResultResponse updateDb() {
+        updateGenre();
+        updateMovie();
+        return DbResultResponse.builder().message("DB update success").build();
+    }
+
     public void updateGenre() {
         // 장르 채우기
         genreRepository.truncateGenre();
@@ -54,9 +51,9 @@ public class UpdateDBService {
             genre.setName(genreDTO.getName());
             genreRepository.save(genre);
         }
+        log.info("genre가 업데이트 되었습니다.");
     }
 
-    @Transactional
     public void updateMovie() {
         // 영화 채우기
         movieRepository.truncateMovie(); //
@@ -81,7 +78,11 @@ public class UpdateDBService {
                 movie.setPosterPath(movieDTO.getPosterPath());
                 movie.setTmdbId(movieDTO.getTmdbId());
                 movie.setAdult(movieDTO.isAdult());
-                movie.setVideoKey(getVideoKey(movieDTO.getTmdbId()));
+                String videoKey = getVideoKey(movieDTO.getTmdbId());
+                if (videoKey.equals("no video")) {
+                    continue;
+                }
+                movie.setVideoKey(videoKey);
 
                 Integer[] ids = movieDTO.getGenreIds().toArray(new Integer[0]);
                 movie.setGenres(genreRepository.makeGenreList(ids));
@@ -120,5 +121,6 @@ public class UpdateDBService {
         }
         return "no video";
     }
+
 
 }
