@@ -8,12 +8,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
 
     public User toUser(PasswordEncoder passwordEncoder) {

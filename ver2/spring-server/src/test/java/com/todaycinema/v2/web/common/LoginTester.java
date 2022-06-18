@@ -14,12 +14,12 @@ public class LoginTester {
      */
     public static String getAuthToken(int port, TestRestTemplate restTemplate) {
         // signup
-        String signUpUrl = "http://localhost:" + port + "/v2/accounts/signup";
-        String signUpRequestBody = "{\"username\": \"authTester\", \"password\": \"ps123\"}";
-        HttpHeaders signUpHeaders = new HttpHeaders();
-        signUpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> signUpRequest = new HttpEntity<>(signUpRequestBody, signUpHeaders);
-        ResponseEntity<UserResponseDto> signUpResponse = restTemplate.postForEntity(signUpUrl, signUpRequest, UserResponseDto.class);
+//        String signUpUrl = "http://localhost:" + port + "/v2/accounts/signup";
+//        String signUpRequestBody = "{\"username\": \"authTester\", \"password\": \"ps123\"}";
+//        HttpHeaders signUpHeaders = new HttpHeaders();
+//        signUpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> signUpRequest = new HttpEntity<>(signUpRequestBody, signUpHeaders);
+//        ResponseEntity<UserResponseDto> signUpResponse = restTemplate.postForEntity(signUpUrl, signUpRequest, UserResponseDto.class);
         // login
         String loginUrl = "http://localhost:" + port + "/v2/accounts/login";
         String loginRequestBody = "{\"username\": \"authTester\", \"password\": \"ps123\"}";
