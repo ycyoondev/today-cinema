@@ -90,7 +90,6 @@ public class UpdateDBService {
             }
         }
         log.info("movie가 업데이트 되었습니다.");
-
     }
 
     public String getVideoKey(Long tmdbId) {
