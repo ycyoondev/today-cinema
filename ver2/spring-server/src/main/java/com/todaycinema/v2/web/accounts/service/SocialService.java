@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,6 +25,31 @@ public class SocialService {
     private final MovieWishUserRepository movieWishUserRepository;
 
     @Transactional
+    public FollowResponseDto followUser(long toUserId, Authentication authentication) {
+        User fromUser = userRepository.findByUsername(authentication.getName()).get();
+        User toUser = userRepository.findById(toUserId).get();
+        FollowResponseDto followResponseDto;
+        if (userFollowRepository.existsByFromUserAndToUser(fromUser, toUser)) {
+            followResponseDto = followDelete(fromUser.getUsername(), toUser.getId());
+        } else {
+            followResponseDto = followSave(fromUser.getUsername(), toUser.getId());
+        }
+        return followResponseDto;
+    }
+
+    @Transactional
+    public BlockResponseDto blockUser(long toUserId, Authentication authentication) {
+        User fromUser = userRepository.findByUsername(authentication.getName()).get();
+        User toUser = userRepository.findById(toUserId).get();
+        BlockResponseDto blockResponseDto;
+        if (userBlockRepository.existsByFromUserAndToUser(fromUser, toUser)) {
+            blockResponseDto = blockDelete(fromUser.getUsername(), toUser.getId());
+        } else {
+            blockResponseDto = blockSave(fromUser.getUsername(), toUser.getId());
+        }
+        return blockResponseDto;
+    }
+
     public FollowResponseDto followSave(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
@@ -38,19 +62,16 @@ public class SocialService {
         return followResponseDto;
     }
 
-    @Transactional
     public FollowResponseDto followDelete(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         Optional<UserFollowing> userFollowingByFromUserAndToUser = userFollowRepository.findUserFollowingByFromUserAndToUser(fromUser.get(), toUser.get());
         userFollowRepository.delete(userFollowingByFromUserAndToUser.get());
-
         FollowResponseDto followResponseDto = new FollowResponseDto();
         followResponseDto.setMessage("언팔로우에 성공 하였습니다.");
         return followResponseDto;
     }
 
-    @Transactional
     public BlockResponseDto blockSave(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
@@ -63,13 +84,11 @@ public class SocialService {
         return blockResponseDto;
     }
 
-    @Transactional
     public BlockResponseDto blockDelete(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         Optional<UserBlocked> userBlockedByFromUserAndToUser = userBlockRepository.findUserBlockedByFromUserAndToUser(fromUser.get(), toUser.get());
         userBlockRepository.delete(userBlockedByFromUserAndToUser.get());
-
         BlockResponseDto blockResponseDto = new BlockResponseDto();
         blockResponseDto.setMessage("차단 해제에 성공 하였습니다.");
         return blockResponseDto;
