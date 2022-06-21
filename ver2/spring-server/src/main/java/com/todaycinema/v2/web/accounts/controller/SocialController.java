@@ -18,7 +18,8 @@ public class SocialController {
 
     @PostMapping("/follow/{userId}")
     public ResponseEntity<FollowResponseDto> followUser(@PathVariable("userId") long toUserId, Authentication authentication) {
-        return ResponseEntity.ok(socialService.followUser(toUserId, authentication));
+        FollowResponseDto followResponseDto = socialService.followUser(toUserId, authentication);
+        return ResponseEntity.ok(followResponseDto);
     }
 
     @PostMapping("/block/{userId}")
