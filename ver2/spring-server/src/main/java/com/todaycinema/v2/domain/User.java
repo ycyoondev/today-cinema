@@ -26,9 +26,6 @@ public class User {
 
     private String introduction;
 
-//    @Column(name = "is_superuser")
-//    private boolean isSuperuser;
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
