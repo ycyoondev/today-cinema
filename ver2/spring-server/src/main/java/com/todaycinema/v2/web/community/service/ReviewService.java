@@ -3,10 +3,10 @@ package com.todaycinema.v2.web.community.service;
 import com.todaycinema.v2.domain.*;
 import com.todaycinema.v2.domain.repository.*;
 import com.todaycinema.v2.web.accounts.dto.UserMiniDto;
-import com.todaycinema.v2.web.community.dto.MessageResponseDto;
-import com.todaycinema.v2.web.community.dto.ReviewRequestDto;
-import com.todaycinema.v2.web.community.dto.ReviewResponseDto;
-import com.todaycinema.v2.web.community.dto.ReviewsResponseDto;
+import com.todaycinema.v2.web.community.dto.MessageResponse;
+import com.todaycinema.v2.web.community.dto.ReviewRequest;
+import com.todaycinema.v2.web.community.dto.ReviewResponse;
+import com.todaycinema.v2.web.community.dto.ReviewsResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -29,12 +29,12 @@ public class ReviewService {
     private final ReviewLikeUserRepository reviewLikeUserRepository;
     private final ReviewSpoilerCheckUserRepository reviewSpoilerCheckUserRepository;
 
-    public ReviewsResponseDto getReviews(long movieId, Authentication authentication) {
-        ReviewsResponseDto reviewsResponseDto = new ReviewsResponseDto();
+    public ReviewsResponse getReviews(long movieId, Authentication authentication) {
+        ReviewsResponse reviewsResponse = new ReviewsResponse();
         Movie movie = movieRepository.findOne(movieId);
         List<Review> reviews = reviewRepository.findAllByMovie(movie);
         for (Review review : reviews) {
-            ReviewResponseDto reviewResponseDto = new ReviewResponseDto(
+            ReviewResponse reviewResponse = new ReviewResponse(
                     review.getId(),
                     new UserMiniDto(review.getUser().getId(), review.getUser().getUsername()),
                     review.getContent(),
@@ -50,35 +50,35 @@ public class ReviewService {
             for (ReviewLikeUser reviewLikeUser : reviewLikeUsers) {
                 likeUsers.add(reviewLikeUser.getUser().getId());
             }
-            reviewResponseDto.setLikeUsers(likeUsers);
+            reviewResponse.setLikeUsers(likeUsers);
             // repository에서 spoiler user 찾아서 넣기
             List<ReviewSpoilerCheckUser> reviewSpoilerCheckUsers = reviewSpoilerCheckUserRepository.findAllByReview(review);
             List<Long> spoilerUsers = new ArrayList<>();
             for (ReviewSpoilerCheckUser reviewSpoilerCheckUser : reviewSpoilerCheckUsers) {
                 spoilerUsers.add(reviewSpoilerCheckUser.getUser().getId());
             }
-            reviewResponseDto.setSpoilerCheckUsers(spoilerUsers);
-            reviewsResponseDto.getReviews().add(reviewResponseDto);
+            reviewResponse.setSpoilerCheckUsers(spoilerUsers);
+            reviewsResponse.getReviews().add(reviewResponse);
         }
-        return reviewsResponseDto;
+        return reviewsResponse;
     }
 
     @Transactional
-    public ReviewResponseDto createReview(long movieId, Authentication authentication, ReviewRequestDto reviewRequestDto) {
+    public ReviewResponse createReview(long movieId, Authentication authentication, ReviewRequest reviewRequest) {
         User user = userRepository.findByUsername(authentication.getName()).get();
         Movie movie = movieRepository.findOne(movieId);
         Review review = new Review();
-        review.setContent(reviewRequestDto.getContent());
-        review.setIsSpoilerSelf(reviewRequestDto.isSpoilerSelf());
+        review.setContent(reviewRequest.getContent());
+        review.setIsSpoilerSelf(reviewRequest.isSpoilerSelf());
         review.setIsSpoilerChecked(false);
-        review.setUserRating(reviewRequestDto.getUserRating());
+        review.setUserRating(reviewRequest.getUserRating());
         review.setCreatedAt(LocalDateTime.now());
         review.setUpdatedAt(LocalDateTime.now());
         review.setUser(user);
         review.setMovie(movie);
         Review saveReview = reviewRepository.save(review);
 
-        return new ReviewResponseDto(
+        return new ReviewResponse(
                 saveReview.getId(),
                 new UserMiniDto(user.getId(), user.getUsername()),
                 saveReview.getContent(),
@@ -91,11 +91,11 @@ public class ReviewService {
     }
 
 
-    public ReviewResponseDto getReview(long movieId, long reviewId) {
+    public ReviewResponse getReview(long movieId, long reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         Review review = optionalReview.get();
         User user = review.getUser();
-        return new ReviewResponseDto(
+        return new ReviewResponse(
                 review.getId(),
                 new UserMiniDto(user.getId(), user.getUsername()),
                 review.getContent(),
@@ -108,16 +108,16 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDto updateReview(long movieId, long reviewId, Authentication authentication, ReviewRequestDto reviewRequestDto) {
+    public ReviewResponse updateReview(long movieId, long reviewId, Authentication authentication, ReviewRequest reviewRequest) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         Review review = optionalReview.get();
         // 수정
-        review.setContent(reviewRequestDto.getContent());
-        review.setIsSpoilerSelf(reviewRequestDto.isSpoilerSelf());
-        review.setUserRating(reviewRequestDto.getUserRating());
+        review.setContent(reviewRequest.getContent());
+        review.setIsSpoilerSelf(reviewRequest.isSpoilerSelf());
+        review.setUserRating(reviewRequest.getUserRating());
         // 조회
         User user = review.getUser();
-        return new ReviewResponseDto(
+        return new ReviewResponse(
                 review.getId(),
                 new UserMiniDto(user.getId(), user.getUsername()),
                 review.getContent(),
@@ -130,8 +130,8 @@ public class ReviewService {
     }
 
     @Transactional
-    public MessageResponseDto deleteReview(long movieId, long reviewId) {
+    public MessageResponse deleteReview(long movieId, long reviewId) {
         reviewRepository.deleteById(reviewId);
-        return new MessageResponseDto("review delete");
+        return new MessageResponse("review delete");
     }
 }

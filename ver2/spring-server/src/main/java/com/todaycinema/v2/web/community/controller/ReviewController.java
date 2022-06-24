@@ -1,9 +1,9 @@
 package com.todaycinema.v2.web.community.controller;
 
-import com.todaycinema.v2.web.community.dto.MessageResponseDto;
-import com.todaycinema.v2.web.community.dto.ReviewRequestDto;
-import com.todaycinema.v2.web.community.dto.ReviewResponseDto;
-import com.todaycinema.v2.web.community.dto.ReviewsResponseDto;
+import com.todaycinema.v2.web.community.dto.MessageResponse;
+import com.todaycinema.v2.web.community.dto.ReviewRequest;
+import com.todaycinema.v2.web.community.dto.ReviewResponse;
+import com.todaycinema.v2.web.community.dto.ReviewsResponse;
 import com.todaycinema.v2.web.community.service.ReviewService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ReviewController {
      * @param authentication
      */
     @GetMapping("/{movieId}/reviews")
-    public ResponseEntity<ReviewsResponseDto> getReviews(@PathVariable("movieId") long movieId, Authentication authentication) {
+    public ResponseEntity<ReviewsResponse> getReviews(@PathVariable("movieId") long movieId, Authentication authentication) {
         return ResponseEntity.ok(reviewService.getReviews(movieId, authentication));
     }
 
@@ -34,14 +34,14 @@ public class ReviewController {
      * 리뷰 생성
      * @param movieId
      * @param authentication
-     * @param reviewRequestDto
+     * @param reviewRequest
      */
     @PostMapping("/{movieId}/reviews")
-    public ResponseEntity<ReviewResponseDto> createReview(
+    public ResponseEntity<ReviewResponse> createReview(
             @PathVariable("movieId") long movieId,
             Authentication authentication,
-            @RequestBody ReviewRequestDto reviewRequestDto) {
-        return ResponseEntity.ok(reviewService.createReview(movieId, authentication, reviewRequestDto));
+            @RequestBody ReviewRequest reviewRequest) {
+        return ResponseEntity.ok(reviewService.createReview(movieId, authentication, reviewRequest));
     }
 
     /**
@@ -50,7 +50,7 @@ public class ReviewController {
      * @param reviewId
      */
     @GetMapping("/{movieId}/review/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> getReview(
+    public ResponseEntity<ReviewResponse> getReview(
             @PathVariable("movieId") long movieId,
             @PathVariable("reviewId") long reviewId) {
         return ResponseEntity.ok(reviewService.getReview(movieId, reviewId));
@@ -61,15 +61,15 @@ public class ReviewController {
      * @param movieId
      * @param reviewId
      * @param authentication
-     * @param reviewRequestDto
+     * @param reviewRequest
      */
     @PutMapping("/{movieId}/review/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> updateReview(
+    public ResponseEntity<ReviewResponse> updateReview(
             @PathVariable("movieId") long movieId,
             @PathVariable("reviewId") long reviewId,
             Authentication authentication,
-            @RequestBody ReviewRequestDto reviewRequestDto) {
-        return ResponseEntity.ok(reviewService.updateReview(movieId, reviewId, authentication, reviewRequestDto));
+            @RequestBody ReviewRequest reviewRequest) {
+        return ResponseEntity.ok(reviewService.updateReview(movieId, reviewId, authentication, reviewRequest));
     }
 
     /**
@@ -78,7 +78,7 @@ public class ReviewController {
      * @param reviewId
      */
     @DeleteMapping("/{movieId}/review/{reviewId}")
-    public ResponseEntity<MessageResponseDto> deleteReview(
+    public ResponseEntity<MessageResponse> deleteReview(
             @PathVariable("movieId") long movieId,
             @PathVariable("reviewId") long reviewId) {
         return ResponseEntity.ok(reviewService.deleteReview(movieId, reviewId));

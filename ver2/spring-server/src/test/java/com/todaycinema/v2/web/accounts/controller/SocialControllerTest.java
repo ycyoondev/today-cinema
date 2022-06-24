@@ -48,8 +48,8 @@ class SocialControllerTest {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-        FollowResponseDto followResponseDto = new FollowResponseDto("팔로우에 성공 하였습니다.");
-        given(socialService.followUser(anyLong(), any())).willReturn(followResponseDto);
+        FollowResponse followResponse = new FollowResponse("팔로우에 성공 하였습니다.");
+        given(socialService.followUser(anyLong(), any())).willReturn(followResponse);
 
         // when
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
@@ -70,8 +70,8 @@ class SocialControllerTest {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-        BlockResponseDto blockResponseDto = new BlockResponseDto("차단에 성공 하였습니다.");
-        given(socialService.blockUser(anyLong(), any())).willReturn(blockResponseDto);
+        BlockResponse blockResponse = new BlockResponse("차단에 성공 하였습니다.");
+        given(socialService.blockUser(anyLong(), any())).willReturn(blockResponse);
 
         // when
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
@@ -108,10 +108,10 @@ class SocialControllerTest {
     @WithMockUser(username = "auth123")
     void updateProfile() throws Exception {
         // given
-        ProfileUpdateResponseDto profileUpdateResponseDto = new ProfileUpdateResponseDto("프로필이 업데이트 되었습니다.");
+        ProfileUpdateResponse profileUpdateResponse = new ProfileUpdateResponse("프로필이 업데이트 되었습니다.");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-        given(socialService.updateProfile(anyLong(), any(), any())).willReturn(profileUpdateResponseDto);
+        given(socialService.updateProfile(anyLong(), any(), any())).willReturn(profileUpdateResponse);
 
         // when
         ResultActions actions = mvc.perform(MockMvcRequestBuilders

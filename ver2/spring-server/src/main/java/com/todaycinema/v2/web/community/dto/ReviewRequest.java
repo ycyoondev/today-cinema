@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentRequestDto {
+public class ReviewRequest {
     private String content;
+    @JsonProperty("user_rating")
+    private int userRating;
+    @JsonProperty("is_spoiler_self")
+    private boolean isSpoilerSelf;
 }

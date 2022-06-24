@@ -1,14 +1,12 @@
-package com.todaycinema.v2.web.accounts.dto;
+package com.todaycinema.v2.web.community.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlockResponseDto {
+public class MessageResponse {
     private String message;
 }

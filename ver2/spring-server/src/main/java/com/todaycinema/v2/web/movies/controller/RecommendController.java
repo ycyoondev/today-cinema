@@ -1,7 +1,7 @@
 package com.todaycinema.v2.web.movies.controller;
 
-import com.todaycinema.v2.web.movies.dto.MessageResponseDto;
-import com.todaycinema.v2.web.movies.dto.TournamentMoviesResponseDto;
+import com.todaycinema.v2.web.movies.dto.MessageResponse;
+import com.todaycinema.v2.web.movies.dto.TournamentMoviesResponse;
 import com.todaycinema.v2.web.movies.service.RecommendService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class RecommendController {
      * @param num
      */
     @GetMapping("/tournament/{num}")
-    public ResponseEntity<TournamentMoviesResponseDto> getTournament(@PathVariable("num") int num) {
+    public ResponseEntity<TournamentMoviesResponse> getTournament(@PathVariable("num") int num) {
         return recommendService.getTournament(num);
     }
 
@@ -33,7 +33,7 @@ public class RecommendController {
      * @param authentication
      */
     @PostMapping("/tournament/{movieId}")
-    public ResponseEntity<TournamentMoviesResponseDto> recommendMovie(
+    public ResponseEntity<TournamentMoviesResponse> recommendMovie(
             @PathVariable("movieId") Long movieId,
             Authentication authentication){
         return recommendService.recommendMovie(movieId, authentication);
@@ -45,7 +45,7 @@ public class RecommendController {
      * @param authentication
      */
     @PostMapping("/tournament/user/{movieId}")
-    public ResponseEntity<MessageResponseDto> addRecommendwithUser(
+    public ResponseEntity<MessageResponse> addRecommendwithUser(
             @PathVariable("movieId") Long movieId,
             Authentication authentication){
         return recommendService.addRecommendwithUser(movieId, authentication);

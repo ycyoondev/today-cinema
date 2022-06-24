@@ -1,4 +1,4 @@
-package com.todaycinema.v2.web.accounts.dto;
+package com.todaycinema.v2.web.community.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileRequestDto {
-    private String introduction;
+public class CommentRequest {
+    private String content;
 }

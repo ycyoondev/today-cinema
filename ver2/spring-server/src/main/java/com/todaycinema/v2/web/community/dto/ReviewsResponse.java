@@ -10,6 +10,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentsResponseDto {
-    private List<CommentResponseDto> comments = new ArrayList<>();
+public class ReviewsResponse {
+    private List<ReviewResponse> reviews = new ArrayList<>();
 }

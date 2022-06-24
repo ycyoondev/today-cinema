@@ -25,73 +25,73 @@ public class SocialService {
     private final MovieWishUserRepository movieWishUserRepository;
 
     @Transactional
-    public FollowResponseDto followUser(long toUserId, Authentication authentication) {
+    public FollowResponse followUser(long toUserId, Authentication authentication) {
         User fromUser = userRepository.findByUsername(authentication.getName()).get();
         User toUser = userRepository.findById(toUserId).get();
-        FollowResponseDto followResponseDto;
+        FollowResponse followResponse;
         if (userFollowRepository.existsByFromUserAndToUser(fromUser, toUser)) {
-            followResponseDto = followDelete(fromUser.getUsername(), toUser.getId());
+            followResponse = followDelete(fromUser.getUsername(), toUser.getId());
         } else {
-            followResponseDto = followSave(fromUser.getUsername(), toUser.getId());
+            followResponse = followSave(fromUser.getUsername(), toUser.getId());
         }
-        return followResponseDto;
+        return followResponse;
     }
 
     @Transactional
-    public BlockResponseDto blockUser(long toUserId, Authentication authentication) {
+    public BlockResponse blockUser(long toUserId, Authentication authentication) {
         User fromUser = userRepository.findByUsername(authentication.getName()).get();
         User toUser = userRepository.findById(toUserId).get();
-        BlockResponseDto blockResponseDto;
+        BlockResponse blockResponse;
         if (userBlockRepository.existsByFromUserAndToUser(fromUser, toUser)) {
-            blockResponseDto = blockDelete(fromUser.getUsername(), toUser.getId());
+            blockResponse = blockDelete(fromUser.getUsername(), toUser.getId());
         } else {
-            blockResponseDto = blockSave(fromUser.getUsername(), toUser.getId());
+            blockResponse = blockSave(fromUser.getUsername(), toUser.getId());
         }
-        return blockResponseDto;
+        return blockResponse;
     }
 
-    public FollowResponseDto followSave(String username, Long toUserId) {
+    public FollowResponse followSave(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         userFollowRepository.save(UserFollowing.builder()
                 .fromUser(fromUser.get())
                 .toUser(toUser.get())
                 .build());
-        FollowResponseDto followResponseDto = new FollowResponseDto();
-        followResponseDto.setMessage("팔로우에 성공 하였습니다.");
-        return followResponseDto;
+        FollowResponse followResponse = new FollowResponse();
+        followResponse.setMessage("팔로우에 성공 하였습니다.");
+        return followResponse;
     }
 
-    public FollowResponseDto followDelete(String username, Long toUserId) {
+    public FollowResponse followDelete(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         Optional<UserFollowing> userFollowingByFromUserAndToUser = userFollowRepository.findUserFollowingByFromUserAndToUser(fromUser.get(), toUser.get());
         userFollowRepository.delete(userFollowingByFromUserAndToUser.get());
-        FollowResponseDto followResponseDto = new FollowResponseDto();
-        followResponseDto.setMessage("언팔로우에 성공 하였습니다.");
-        return followResponseDto;
+        FollowResponse followResponse = new FollowResponse();
+        followResponse.setMessage("언팔로우에 성공 하였습니다.");
+        return followResponse;
     }
 
-    public BlockResponseDto blockSave(String username, Long toUserId) {
+    public BlockResponse blockSave(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         userBlockRepository.save(UserBlocked.builder()
                 .fromUser(fromUser.get())
                 .toUser(toUser.get())
                 .build());
-        BlockResponseDto blockResponseDto = new BlockResponseDto();
-        blockResponseDto.setMessage("차단에 성공 하였습니다.");
-        return blockResponseDto;
+        BlockResponse blockResponse = new BlockResponse();
+        blockResponse.setMessage("차단에 성공 하였습니다.");
+        return blockResponse;
     }
 
-    public BlockResponseDto blockDelete(String username, Long toUserId) {
+    public BlockResponse blockDelete(String username, Long toUserId) {
         Optional<User> fromUser = userRepository.findByUsername(username);
         Optional<User> toUser = userRepository.findById(toUserId);
         Optional<UserBlocked> userBlockedByFromUserAndToUser = userBlockRepository.findUserBlockedByFromUserAndToUser(fromUser.get(), toUser.get());
         userBlockRepository.delete(userBlockedByFromUserAndToUser.get());
-        BlockResponseDto blockResponseDto = new BlockResponseDto();
-        blockResponseDto.setMessage("차단 해제에 성공 하였습니다.");
-        return blockResponseDto;
+        BlockResponse blockResponse = new BlockResponse();
+        blockResponse.setMessage("차단 해제에 성공 하였습니다.");
+        return blockResponse;
     }
 
     public UserProfileDto getProfile(long userId) {
@@ -130,12 +130,12 @@ public class SocialService {
     }
 
     @Transactional
-    public ProfileUpdateResponseDto updateProfile(long userId, ProfileRequestDto profileRequestDto, Authentication authentication) {
+    public ProfileUpdateResponse updateProfile(long userId, ProfileRequest profileRequest, Authentication authentication) {
         User user = userRepository.findById(userId).get();
         if (!user.getUsername().equals(authentication.getName())) {
-            return new ProfileUpdateResponseDto("계정 주인이 아닙니다.");
+            return new ProfileUpdateResponse("계정 주인이 아닙니다.");
         }
-        user.setIntroduction(profileRequestDto.getIntroduction());
-        return new ProfileUpdateResponseDto("프로필이 업데이트 되었습니다.");
+        user.setIntroduction(profileRequest.getIntroduction());
+        return new ProfileUpdateResponse("프로필이 업데이트 되었습니다.");
     }
 }

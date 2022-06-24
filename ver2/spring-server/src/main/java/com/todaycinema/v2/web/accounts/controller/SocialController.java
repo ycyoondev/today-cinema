@@ -17,13 +17,13 @@ public class SocialController {
     private final SocialService socialService;
 
     @PostMapping("/follow/{userId}")
-    public ResponseEntity<FollowResponseDto> followUser(@PathVariable("userId") long toUserId, Authentication authentication) {
-        FollowResponseDto followResponseDto = socialService.followUser(toUserId, authentication);
-        return ResponseEntity.ok(followResponseDto);
+    public ResponseEntity<FollowResponse> followUser(@PathVariable("userId") long toUserId, Authentication authentication) {
+        FollowResponse followResponse = socialService.followUser(toUserId, authentication);
+        return ResponseEntity.ok(followResponse);
     }
 
     @PostMapping("/block/{userId}")
-    public ResponseEntity<BlockResponseDto> blockUser(@PathVariable("userId") long toUserId, Authentication authentication) {
+    public ResponseEntity<BlockResponse> blockUser(@PathVariable("userId") long toUserId, Authentication authentication) {
         return ResponseEntity.ok(socialService.blockUser(toUserId, authentication));
     }
 
@@ -33,10 +33,10 @@ public class SocialController {
     }
 
     @PutMapping("/profile/{userId}")
-    public ResponseEntity<ProfileUpdateResponseDto> updateProfile(
+    public ResponseEntity<ProfileUpdateResponse> updateProfile(
             @PathVariable("userId") long userId,
-            @RequestBody ProfileRequestDto profileRequestDto,
+            @RequestBody ProfileRequest profileRequest,
             Authentication authentication) {
-        return ResponseEntity.ok(socialService.updateProfile(userId, profileRequestDto, authentication));
+        return ResponseEntity.ok(socialService.updateProfile(userId, profileRequest, authentication));
     }
 }

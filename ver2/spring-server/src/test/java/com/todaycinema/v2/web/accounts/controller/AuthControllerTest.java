@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import com.todaycinema.v2.web.accounts.dto.TokenDto;
-import com.todaycinema.v2.web.accounts.dto.UserResponseDto;
+import com.todaycinema.v2.web.accounts.dto.UserResponse;
 import com.todaycinema.v2.web.accounts.service.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,8 +43,8 @@ class AuthControllerTest {
     @Transactional
     void signup() throws Exception {
         // given
-        UserResponseDto userResponseDto = new UserResponseDto("tester1");
-        given(authService.signup(any())).willReturn(userResponseDto);
+        UserResponse userResponse = new UserResponse("tester1");
+        given(authService.signup(any())).willReturn(userResponse);
         String content = "{\"username\": \"tester1\", \"password\": \"tester123\", \"passwordConfirmation\": \"tester123\"}";
 
         // when
@@ -63,8 +63,8 @@ class AuthControllerTest {
     @Transactional
     void signupFail() throws Exception {
         // given
-        UserResponseDto userResponseDto = new UserResponseDto("tester1");
-        given(authService.signup(any())).willReturn(userResponseDto);
+        UserResponse userResponse = new UserResponse("tester1");
+        given(authService.signup(any())).willReturn(userResponse);
         String content = "{\"username\": \"tester1\", \"password\": \" \"}";
 
         // when

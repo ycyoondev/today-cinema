@@ -1,7 +1,6 @@
 package com.todaycinema.v2.web.common;
 
 import com.todaycinema.v2.web.accounts.dto.TokenDto;
-import com.todaycinema.v2.web.accounts.dto.UserResponseDto;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

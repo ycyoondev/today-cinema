@@ -1,9 +1,9 @@
 package com.todaycinema.v2.web.community.controller;
 
-import com.todaycinema.v2.web.community.dto.CommentRequestDto;
-import com.todaycinema.v2.web.community.dto.CommentResponseDto;
-import com.todaycinema.v2.web.community.dto.CommentsResponseDto;
-import com.todaycinema.v2.web.community.dto.MessageResponseDto;
+import com.todaycinema.v2.web.community.dto.CommentRequest;
+import com.todaycinema.v2.web.community.dto.CommentResponse;
+import com.todaycinema.v2.web.community.dto.CommentsResponse;
+import com.todaycinema.v2.web.community.dto.MessageResponse;
 import com.todaycinema.v2.web.community.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CommentController {
      * @param reviewId
      */
     @GetMapping("/{movieId}/review/{reviewId}/comments")
-    public ResponseEntity<CommentsResponseDto> getComments(
+    public ResponseEntity<CommentsResponse> getComments(
             @PathVariable("movieId") Long movieId,
             @PathVariable("reviewId") Long reviewId) {
         return ResponseEntity.ok(commentService.getComments(movieId, reviewId));
@@ -37,19 +37,19 @@ public class CommentController {
      * @param movieId
      * @param reviewId
      * @param authentication
-     * @param commentRequestDto
+     * @param commentRequest
      */
     @PostMapping("/{movieId}/review/{reviewId}/comments")
-    public ResponseEntity<CommentResponseDto> createComment(
+    public ResponseEntity<CommentResponse> createComment(
             @PathVariable("movieId") Long movieId,
             @PathVariable("reviewId") Long reviewId,
             Authentication authentication,
-            @RequestBody CommentRequestDto commentRequestDto) {
-        return ResponseEntity.ok(commentService.createComment(movieId, reviewId, authentication, commentRequestDto));
+            @RequestBody CommentRequest commentRequest) {
+        return ResponseEntity.ok(commentService.createComment(movieId, reviewId, authentication, commentRequest));
     }
 
     @DeleteMapping("/{movieId}/review/{reviewId}/comment/{commentId}")
-    public ResponseEntity<MessageResponseDto> deleteComment(
+    public ResponseEntity<MessageResponse> deleteComment(
             @PathVariable("movieId") Long movieId,
             @PathVariable("reviewId") Long reviewId,
             @PathVariable("commentId") Long commentId) {

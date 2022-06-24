@@ -7,10 +7,10 @@ import com.todaycinema.v2.domain.repository.MovieWishUserRepository;
 import com.todaycinema.v2.domain.repository.UserBlockRepository;
 import com.todaycinema.v2.domain.repository.UserFollowRepository;
 import com.todaycinema.v2.domain.repository.UserRepository;
-import com.todaycinema.v2.web.accounts.dto.BlockResponseDto;
-import com.todaycinema.v2.web.accounts.dto.FollowResponseDto;
-import com.todaycinema.v2.web.accounts.dto.ProfileRequestDto;
-import com.todaycinema.v2.web.accounts.dto.ProfileUpdateResponseDto;
+import com.todaycinema.v2.web.accounts.dto.BlockResponse;
+import com.todaycinema.v2.web.accounts.dto.FollowResponse;
+import com.todaycinema.v2.web.accounts.dto.ProfileRequest;
+import com.todaycinema.v2.web.accounts.dto.ProfileUpdateResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ class SocialServiceTest {
     void followUser() {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        FollowResponseDto followResponseDto = new FollowResponseDto("팔로우에 성공 하였습니다.");
+        FollowResponse followResponse = new FollowResponse("팔로우에 성공 하였습니다.");
 
         Optional<User> fromUser = Optional.of(User.builder().id(1L).username("test1").authority(Authority.ROLE_USER).build());
         Optional<User> toUser = Optional.of(User.builder().id(2L).username("test2").authority(Authority.ROLE_USER).build());
@@ -67,10 +67,10 @@ class SocialServiceTest {
         given(userFollowRepository.existsByFromUserAndToUser(any(), any())).willReturn(false);
 
         // when
-        FollowResponseDto followResponseDto1 = socialService.followUser(1L, authentication);
+        FollowResponse followResponse1 = socialService.followUser(1L, authentication);
 
         // then
-        Assertions.assertThat(followResponseDto1.getMessage()).isEqualTo(followResponseDto.getMessage());
+        Assertions.assertThat(followResponse1.getMessage()).isEqualTo(followResponse.getMessage());
     }
 
     @Test
@@ -80,7 +80,7 @@ class SocialServiceTest {
     void blockUser() {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        BlockResponseDto blockResponseDto = new BlockResponseDto("차단에 성공 하였습니다.");
+        BlockResponse blockResponse = new BlockResponse("차단에 성공 하였습니다.");
 
         Optional<User> fromUser = Optional.of(User.builder().id(1L).username("test1").authority(Authority.ROLE_USER).build());
         Optional<User> toUser = Optional.of(User.builder().id(2L).username("test2").authority(Authority.ROLE_USER).build());
@@ -90,10 +90,10 @@ class SocialServiceTest {
         given(userBlockRepository.existsByFromUserAndToUser(any(), any())).willReturn(false);
 
         // when
-        BlockResponseDto blockResponseDto1 = socialService.blockUser(1L, authentication);
+        BlockResponse blockResponse1 = socialService.blockUser(1L, authentication);
 
         // then
-        Assertions.assertThat(blockResponseDto1.getMessage()).isEqualTo(blockResponseDto.getMessage());
+        Assertions.assertThat(blockResponse1.getMessage()).isEqualTo(blockResponse.getMessage());
     }
 
     @Test
@@ -103,16 +103,16 @@ class SocialServiceTest {
     void updateProfile() {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ProfileRequestDto profileRequestDto = new ProfileRequestDto("introduction me");
+        ProfileRequest profileRequest = new ProfileRequest("introduction me");
         Optional<User> user = Optional.of(User.builder().id(1L).username("test1").authority(Authority.ROLE_USER).build());
 
         given(userRepository.findById(anyLong())).willReturn(user);
         given(userBlockRepository.existsByFromUserAndToUser(any(), any())).willReturn(false);
 
         // when
-        ProfileUpdateResponseDto profileUpdateResponseDto = socialService.updateProfile(1L, profileRequestDto,authentication);
+        ProfileUpdateResponse profileUpdateResponse = socialService.updateProfile(1L, profileRequest,authentication);
 
         // then
-        Assertions.assertThat(profileUpdateResponseDto.getMessage()).isEqualTo("프로필이 업데이트 되었습니다.");
+        Assertions.assertThat(profileUpdateResponse.getMessage()).isEqualTo("프로필이 업데이트 되었습니다.");
     }
 }
