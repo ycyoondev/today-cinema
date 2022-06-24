@@ -19,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -45,7 +44,6 @@ class SocialControllerTest {
     @Test
     @DisplayName("followUser: Success")
     @WithMockUser(username = "auth123")
-    @Transactional
     void followUserFollow() throws Exception {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,7 +66,6 @@ class SocialControllerTest {
     @Test
     @DisplayName("blockUser: Success")
     @WithMockUser(username = "auth123")
-    @Transactional
     void blockUser() throws Exception {
         // given
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,7 +106,6 @@ class SocialControllerTest {
     @Test
     @DisplayName("updateProfile: Success")
     @WithMockUser(username = "auth123")
-    @Transactional
     void updateProfile() throws Exception {
         // given
         ProfileUpdateResponseDto profileUpdateResponseDto = new ProfileUpdateResponseDto("프로필이 업데이트 되었습니다.");
