@@ -70,24 +70,6 @@ export default {
       }
       return config
     },
-    getRecommendMovies: function(genre_id){
-      const url = SERVER_URL + '/movies/genre/' + genre_id + '/best/'
-      console.log(url)
-      
-      axios({
-        method: 'get',
-        url: url,
-        // headers: this.setToken()
-      })
-        .then(res => {
-          console.log('확인용')
-          console.log(res.data)
-          this.same_genres = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     
     getMovie : async function(){
       const url = SERVER_URL + '/movies/' + this.$route.params.movie_pk

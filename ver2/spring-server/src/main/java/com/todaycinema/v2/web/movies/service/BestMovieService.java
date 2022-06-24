@@ -26,12 +26,6 @@ public class BestMovieService {
     private final GenreRepositoryDataJpa genreRepositoryDataJpa;
 
 
-    public List<Movie> findBestGenreMovie(int num, Long genreId) {
-        List<Movie> bestGenreMovie = movieRepository.findTopNumByGenre(num, genreId);
-        return bestGenreMovie;
-    }
-
-
     public BestMovieResponse getBestMovies() {
         BestMovieResponse bestMovieResponse = new BestMovieResponse();
         // Best영화

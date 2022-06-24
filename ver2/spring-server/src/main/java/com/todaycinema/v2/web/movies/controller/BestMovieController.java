@@ -1,6 +1,5 @@
 package com.todaycinema.v2.web.movies.controller;
 
-import com.todaycinema.v2.domain.Movie;
 import com.todaycinema.v2.domain.repository.GenreRepository;
 import com.todaycinema.v2.web.movies.dto.BestMovieResponse;
 import com.todaycinema.v2.web.movies.service.BestMovieService;
@@ -9,12 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Random;
 
 @Tag(name = "movies")
 @Slf4j
@@ -30,11 +25,4 @@ public class BestMovieController {
     public ResponseEntity<BestMovieResponse> best() {
         return ResponseEntity.ok(bestMovieService.getBestMovies());
     }
-
-    @GetMapping("/genre/{genreId}/best")
-    public List<Movie> genreBest(@PathVariable Long genreId) {
-        List<Movie> bestGenreMovie = bestMovieService.findBestGenreMovie(20, genreId);
-        return bestGenreMovie;
-    }
-
 }
