@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BestMovieController {
 
     public final BestMovieService bestMovieService;
-    public final GenreRepository genreRepository;
 
     @GetMapping("/best")
     public ResponseEntity<BestMovieResponse> best() {
