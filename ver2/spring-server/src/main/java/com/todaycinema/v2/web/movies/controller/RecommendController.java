@@ -24,7 +24,7 @@ public class RecommendController {
      */
     @GetMapping("/tournament/{num}")
     public ResponseEntity<TournamentMoviesResponse> getTournament(@PathVariable("num") int num) {
-        return recommendService.getTournament(num);
+        return ResponseEntity.ok(recommendService.getTournament(num));
     }
 
     /**
@@ -36,7 +36,7 @@ public class RecommendController {
     public ResponseEntity<TournamentMoviesResponse> recommendMovie(
             @PathVariable("movieId") Long movieId,
             Authentication authentication){
-        return recommendService.recommendMovie(movieId, authentication);
+        return ResponseEntity.ok(recommendService.recommendMovie(movieId, authentication));
     }
 
     /**
@@ -48,6 +48,6 @@ public class RecommendController {
     public ResponseEntity<MessageResponse> addRecommendwithUser(
             @PathVariable("movieId") Long movieId,
             Authentication authentication){
-        return recommendService.addRecommendwithUser(movieId, authentication);
+        return ResponseEntity.ok(recommendService.addRecommendwithUser(movieId, authentication));
     }
 }

@@ -24,7 +24,6 @@ public class MovieUserController {
     public ResponseEntity<MovieWishResponse> postWishMovie(
             @PathVariable("movieId") long movieId,
             Authentication authentication) {
-        MovieWishResponse movieWishResponse = movieUserService.postWishMovie(movieId, authentication);
-        return ResponseEntity.ok(movieWishResponse);
+        return ResponseEntity.ok(movieUserService.postWishMovie(movieId, authentication));
     }
 }

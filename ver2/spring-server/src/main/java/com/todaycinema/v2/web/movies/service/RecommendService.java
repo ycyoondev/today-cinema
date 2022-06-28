@@ -28,7 +28,7 @@ public class RecommendService {
     private final UserRepository userRepository;
     private final WebClientConfig webClientConfig;
 
-    public ResponseEntity<TournamentMoviesResponse> getTournament(int num) {
+    public TournamentMoviesResponse getTournament(int num) {
         List<Movie> movies = movieRepositoryDataJpa.findAllOrderByRand(num);
         TournamentMoviesResponse tournamentMoviesResponseDto = new TournamentMoviesResponse();
         for (Movie movie : movies) {
@@ -41,11 +41,11 @@ public class RecommendService {
             );
             tournamentMoviesResponseDto.getMovies().add(tournamentMovieDto);
         }
-        return ResponseEntity.ok(tournamentMoviesResponseDto);
+        return tournamentMoviesResponseDto;
     }
 
     @Transactional
-    public ResponseEntity<TournamentMoviesResponse> recommendMovie(Long movieId, Authentication authentication) {
+    public TournamentMoviesResponse recommendMovie(Long movieId, Authentication authentication) {
         // 유저 저장
         User user = userRepository.findByUsername(authentication.getName()).get();
         // 추천 서버에서 영화 id 받기
@@ -78,12 +78,11 @@ public class RecommendService {
             );
             tournamentMoviesResponseDto.getMovies().add(tournamentMovieDto);
         }
-        return ResponseEntity.ok(tournamentMoviesResponseDto);
+        return tournamentMoviesResponseDto;
     }
 
     @Transactional
-    public ResponseEntity<MessageResponse> addRecommendwithUser(Long movieId, Authentication authentication) {
-
-        return ResponseEntity.ok(null);
+    public MessageResponse addRecommendwithUser(Long movieId, Authentication authentication) {
+        return null;
     }
 }
