@@ -22,7 +22,6 @@ public class BestMovieService {
 
     private final MovieRepository movieRepository;
     private final MovieRepositoryDataJpa movieRepositoryDataJpa;
-    private final GenreRepository genreRepository;
     private final GenreRepositoryDataJpa genreRepositoryDataJpa;
 
 

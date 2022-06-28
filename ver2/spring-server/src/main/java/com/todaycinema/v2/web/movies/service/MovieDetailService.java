@@ -2,6 +2,7 @@ package com.todaycinema.v2.web.movies.service;
 
 import com.todaycinema.v2.domain.Movie;
 import com.todaycinema.v2.domain.repository.MovieRepository;
+import com.todaycinema.v2.web.movies.dto.MovieDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MovieDetailService {
     private final MovieRepository movieRepository;
 
-    public Movie movieDetail(Long movieId) {
+    public MovieDetailResponse movieDetail(Long movieId) {
         Movie movie = movieRepository.findOne(movieId);
-        return movie;
+        return MovieDetailResponse.toDto(movie);
     }
 }
