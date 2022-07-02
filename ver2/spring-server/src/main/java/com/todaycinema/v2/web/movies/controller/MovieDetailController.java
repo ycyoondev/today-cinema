@@ -1,7 +1,5 @@
 package com.todaycinema.v2.web.movies.controller;
 
-import com.todaycinema.v2.domain.Movie;
-import com.todaycinema.v2.domain.repository.MovieRepository;
 import com.todaycinema.v2.web.movies.dto.MovieDetailResponse;
 import com.todaycinema.v2.web.movies.service.MovieDetailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Tag(name = "movies")
 @Slf4j
