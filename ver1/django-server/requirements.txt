@@ -15,7 +15,7 @@ idna==3.3
 inflection==0.5.1
 itypes==1.2.0
 Jinja2==3.0.3
-joblib==1.1.0
+joblib==1.2.0
 krwordrank==1.0.3
 MarkupSafe==2.1.0
 numpy==1.21.4
